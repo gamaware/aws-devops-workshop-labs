@@ -8,7 +8,7 @@ two-digit number and a short, hyphenated topic, for example `06-eventbridge-rule
 ```text
 labs/NN-topic/
 ├── README.md        the tutorial
-├── starter/         what the learner edits: valid, incomplete
+├── starter/         what the participant edits: valid, incomplete
 ├── solution/        the model answer
 └── tests/
     └── run.sh       the grader, executable
@@ -27,7 +27,7 @@ labs/NN-topic/
 7. Reset
 
 Set the scenario at Harbor Goods, the fictional client of every lab. Use `111122223333` for account IDs and
-`example.com` for domains. Tell the learner to run `make check LAB=NN` in **Expected result** and
+`example.com` for domains. Tell the participant to run `make check LAB=NN` in **Expected result** and
 `make reset LAB=NN` in **Reset**, plus any `terraform destroy` or cleanup for optional live steps.
 
 ## Write the starter and the solution
@@ -64,8 +64,8 @@ finish
 ```
 
 - Use `setup` for preconditions: a failure stops the grader with exit 2.
-- Use `check` for objectives: one line per objective, each phrased as the outcome the learner reaches.
-- Grade the copy in `$GRADER_WORK`, never the learner's directory.
+- Use `check` for objectives: one line per objective, each phrased as the outcome the participant reaches.
+- Grade the copy in `$GRADER_WORK`, never the participant's directory.
 - Stay offline: mocked providers, synthesized templates, local containers. No AWS credentials.
 
 Make it executable:

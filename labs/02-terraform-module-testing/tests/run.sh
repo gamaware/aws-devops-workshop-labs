@@ -20,7 +20,7 @@ for dir in "$MODULE" "$EXAMPLE"; do
   setup "$name: terraform validate" terraform -chdir="$dir" validate -no-color
 done
 
-# count_runs: number of run blocks in the learner's own test files.
+# count_runs: number of run blocks in the participant's own test files.
 count_runs() {
   cat "$MODULE"/tests/*.tftest.hcl 2> /dev/null | grep -Ec '^[[:space:]]*run[[:space:]]+"' || true
 }
@@ -33,7 +33,7 @@ own_suite_is_substantial() {
   [ "$runs" -ge 3 ] && grep -q 'expect_failures' "$MODULE"/tests/*.tftest.hcl
 }
 
-check "module: the learner's own terraform test suite passes" \
+check "module: the participant's own terraform test suite passes" \
   terraform -chdir="$MODULE" test -no-color
 check "module: the own suite has 3+ run blocks, including an expect_failures test" \
   own_suite_is_substantial

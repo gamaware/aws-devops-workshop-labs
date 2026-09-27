@@ -1,4 +1,4 @@
-"""The learner's own tests: fine-grained assertions on the synthesized template.
+"""The participant's own tests: fine-grained assertions on the synthesized template.
 
 Exercise 4: add at least two more tests, for example that the assets bucket is
 versioned and that every bucket policy denies requests without TLS.

@@ -6,7 +6,7 @@ Each lab has a grader at `labs/NN-*/tests/run.sh`. It takes one argument, the di
 labs/01-terraform-remote-state/tests/run.sh labs/01-terraform-remote-state/starter
 ```
 
-`make check LAB=NN [TARGET=starter|solution]` calls it for you.
+`make check LAB=NN [TARGET=starter|solution]` calls it.
 
 ## Exit codes
 
@@ -47,8 +47,8 @@ exits 1.
 Every grader copies the target into `$GRADER_WORK`, a temporary directory removed on exit, and grades the copy.
 
 - `terraform test` only accepts a test directory inside the configuration. Copying lets the grader add its own
-  `.tftest.hcl` files next to the learner's code.
-- The learner's directory stays clean: no `grader/` directory, `.terraform`, `cdk.out` or image build output
+  `.tftest.hcl` files next to the participant's code.
+- The participant's directory stays clean: no `grader/` directory, `.terraform`, `cdk.out` or image build output
   appears in it.
 
 ## Environment
@@ -89,7 +89,7 @@ Tools: `terraform`.
 | setup | `modules/queue: terraform validate` |
 | setup | `examples/basic: terraform init` |
 | setup | `examples/basic: terraform validate` |
-| check | `module: the learner's own terraform test suite passes` |
+| check | `module: the participant's own terraform test suite passes` |
 | check | `module: the own suite has 3+ run blocks, including an expect_failures test` |
 | check | `module: validations, dead-letter queue, encryption and outputs meet the contract` |
 
@@ -100,7 +100,7 @@ Tools: `uv`, `node`.
 | Kind | Line |
 | --- | --- |
 | setup | `the stack synthesizes (without cdk-nag)` |
-| check | `own tests: the learner's assertion tests pass` |
+| check | `own tests: the participant's assertion tests pass` |
 | check | `own tests: 3 or more assertion tests` |
 | check | `cdk-nag passes and the template keeps data private, encrypted and retained` |
 

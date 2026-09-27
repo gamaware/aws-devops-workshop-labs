@@ -42,7 +42,7 @@ aws_cli() {
 }
 
 # Copy the solutions and add an override file with the test tags, so the lab code stays
-# exactly as learners see it. Terraform merges *_override.tf files into the configuration.
+# exactly as participants see it. Terraform merges *_override.tf files into the configuration.
 add_test_tags() {
   local stack="$1" lab="$2"
   cat > "$stack/live_override.tf" << HCL

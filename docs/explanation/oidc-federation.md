@@ -53,7 +53,7 @@ expects, with `StringEquals`, and checks the audience too:
 }
 ```
 
-Use `StringLike` only when the set of valid subjects is a pattern you mean, and keep the wildcard as far right
+Use `StringLike` only when the set of valid subjects is a pattern the policy intends, and keep the wildcard as far right
 as possible. A trust policy without any `sub` condition lets any GitHub repository in the world assume the role.
 
 The dry run in `tests/oidc_dry_run.py` evaluates the policy against the claim files in `fixtures/oidc-claims/`:

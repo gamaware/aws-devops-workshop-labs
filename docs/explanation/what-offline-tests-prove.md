@@ -81,6 +81,7 @@ What it cannot prove:
 
 Two paths cover what the offline graders cannot:
 
-- Learners deploy their own work to a personal account with [use a sandbox account](../how-to/use-a-sandbox-account.md).
+- Participants deploy their own work to a personal account with
+  [use a sandbox account](../how-to/use-a-sandbox-account.md).
 - Maintainers apply the Terraform solutions to a development account with
   [run the live test](../how-to/run-the-live-test.md), after provider or solution changes.

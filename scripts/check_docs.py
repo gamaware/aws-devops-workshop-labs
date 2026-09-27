@@ -1,7 +1,7 @@
 """Structure and documentation checks that keep the labs consistent (make docs-check).
 
 - Every lab has README.md, starter/, solution/ and an executable tests/run.sh.
-- Every lab README has the sections a learner relies on, in order.
+- Every lab README has the sections a participant relies on, in order.
 - Every lab has instructor notes, and the repository README links every lab.
 - Relative links in Markdown files point at files that exist.
 - No placeholder markers (TODO, FIXME, TBD) in the documentation.

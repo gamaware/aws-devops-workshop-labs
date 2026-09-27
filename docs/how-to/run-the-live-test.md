@@ -33,7 +33,7 @@ The script:
 
 1. Prints `aws sts get-caller-identity` for the `dev` profile and asks for confirmation. Check the account
    before you answer `y`. Set `LIVE_YES=1` to skip the question.
-2. Copies both solutions to a temporary directory outside the repository, so the lab code stays as learners see
+2. Copies both solutions to a temporary directory outside the repository, so the lab code stays as participants see
    it.
 3. Writes a `live_override.tf` file next to each stack. Terraform merges `*_override.tf` files into the
    configuration; this one sets `default_tags` with `project=harbor-goods`, the lab name,

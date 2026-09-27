@@ -1,4 +1,4 @@
-"""The learner's own tests: fine-grained assertions on the synthesized template."""
+"""The participant's own tests: fine-grained assertions on the synthesized template."""
 
 import pytest
 from aws_cdk import App

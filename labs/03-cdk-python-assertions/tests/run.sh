@@ -17,7 +17,7 @@ py() {
   uv run --project "$REPO_ROOT" --frozen --quiet "$@"
 }
 
-# count_tests: number of test functions in the learner's own test files.
+# count_tests: number of test functions in the participant's own test files.
 count_tests() {
   cat "$GRADER_WORK"/tests/test_*.py 2> /dev/null | grep -Ec '^def test_' || true
 }
@@ -35,7 +35,7 @@ from aws_cdk import App
 from harbor_assets.storage_stack import AssetsStack
 app = App(); AssetsStack(app, 'Probe'); app.synth()"
 
-check "own tests: the learner's assertion tests pass" \
+check "own tests: the participant's assertion tests pass" \
   py pytest -q -p no:cacheprovider --tb=line "$GRADER_WORK/tests"
 check "own tests: 3 or more assertion tests" \
   own_suite_is_substantial
