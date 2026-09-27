@@ -1,0 +1,5 @@
+# Exercise 8: complete the partial backend configuration. Take bucket and Region from
+#   terraform -chdir=../bootstrap output backend_config
+# and add a state key for this stack and environment, encryption and S3 native locking.
+bucket = "harbor-goods-tfstate-yourinitials"
+region = "us-east-1"

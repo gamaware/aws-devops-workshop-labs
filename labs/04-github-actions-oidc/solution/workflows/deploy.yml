@@ -1,0 +1,59 @@
+name: storefront
+
+# Lab 04 solution. It lives outside .github/workflows, so GitHub does not run it in this
+# repository. Copy it to .github/workflows/ in your own repository to use it.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# Nothing by default; each job asks for exactly what it needs.
+permissions: {}
+
+concurrency:
+  group: storefront-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    name: Validate the site
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Check that the home page exists
+        run: test -s site/index.html
+
+  deploy:
+    name: Deploy to S3
+    needs: validate
+    # Pull requests never reach this job, so they never get an AWS token.
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    # The environment adds required reviewers and becomes part of the OIDC subject claim.
+    environment: production
+    permissions:
+      contents: read
+      id-token: write # request the OIDC token that AWS STS exchanges for role credentials
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Assume the deploy role with OIDC
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6.3.0
+        with:
+          role-to-assume: arn:aws:iam::111122223333:role/harbor-storefront-deploy
+          role-session-name: storefront-${{ github.run_id }}
+          aws-region: us-east-1
+
+      - name: Upload the site
+        env:
+          BUCKET: harbor-goods-storefront-site
+        run: aws s3 sync site/ "s3://$BUCKET" --delete

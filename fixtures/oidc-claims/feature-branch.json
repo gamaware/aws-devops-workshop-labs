@@ -1,0 +1,11 @@
+{
+  "_description": "A push to a feature branch with no environment.",
+  "_expected": "deny",
+  "iss": "https://token.actions.githubusercontent.com",
+  "aud": "sts.amazonaws.com",
+  "sub": "repo:harbor-goods/storefront:ref:refs/heads/feature/checkout",
+  "repository": "harbor-goods/storefront",
+  "repository_owner": "harbor-goods",
+  "ref": "refs/heads/feature/checkout",
+  "event_name": "push"
+}
