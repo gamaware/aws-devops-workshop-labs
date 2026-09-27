@@ -1,0 +1,45 @@
+# 0003. Graders check the starters; scanners skip them
+
+Status: Accepted
+
+## Context
+
+Starters are insecure or incomplete on purpose: a public-by-default bucket, stored AWS keys, a root container, a
+privileged task. Repository scanners (Checkov, Trivy, Semgrep, hadolint) would report those findings on every pull
+request. Silencing the rules for the whole repository would also hide real problems in the solutions, which are the
+model answers participants copy.
+
+## Decision
+
+Scanners skip `labs/*/starter/` by path and scan everything else in full:
+
+- Checkov scans the solution directories listed in `.checkov.yaml`;
+- Trivy runs with `--skip-dirs 'labs/*/starter'` (`make trivy` and the shared security workflow);
+- Semgrep reads `.semgrepignore`;
+- the hadolint pre-commit hook excludes starters.
+
+The configuration disables no rule. The graders assert the starters' findings instead:
+`scripts/verify-labs.sh` requires every starter to fail its grader, and the graders check the same issues (for example
+unpinned actions, root users, missing encryption). Linters that the starters pass, such as tflint, actionlint and
+`terraform validate`, still run on them.
+
+## Alternatives
+
+- Inline skip comments in every starter file: noisy, and they teach participants to suppress findings.
+- A baseline of accepted findings: drifts as scanners add rules, and hides the intent.
+
+## Consequences
+
+- Scanners stay silent about a security regression in a starter on purpose: the starter is the problem
+  statement.
+- A regression in a solution fails CI.
+
+## Compliance
+
+`make checkov` and `make trivy` in `make verify`; the shared `security` workflow in CI with `checkov-config` and
+`trivy-skip-dirs` set; `make labs` for the starters.
+
+## Notes
+
+The one remaining skip in the solutions carries its reason next to the resource, for example the AWS managed key on
+the lab 01 state bucket (`#trivy:ignore:AVD-AWS-0132`).
