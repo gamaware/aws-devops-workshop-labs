@@ -5,13 +5,13 @@ Lab directory: [labs/05-containers-to-ecs](../labs/05-containers-to-ecs/). Backg
 
 ## Timing
 
-Suggested duration: 95 minutes.
+Suggested duration: 90 minutes.
 
 | Part | Minutes |
 | --- | --- |
 | Brief | 5 |
 | Opening demo | 5 |
-| Work time | 70 |
+| Work time | 65 |
 | Debrief | 15 |
 
 In a 1:1 session, plan the six Dockerfile exercises for the session and the task definition as practice.
@@ -71,7 +71,7 @@ pip before you switch users. If pip is still there, the smoke test prints
 `pip is still in the image: the app does not need a package manager at run time`.
 
 **Bytecode on a read-only filesystem.** The container starts without `PYTHONDONTWRITEBYTECODE=1`: Python skips
-the `.pyc` write when the filesystem refuses it. Learners who test with `docker run --read-only`, see it work,
+the `.pyc` write when the filesystem refuses it. Participants who test with `docker run --read-only`, see it work,
 and skip the setting then get `a read-only root filesystem has no room for .pyc files`. Use it to discuss why
 the image should state its run-time contract instead of relying on silent fallbacks.
 
@@ -111,42 +111,10 @@ not Python. hadolint reports `DL3025`; the checklist reports `use CMD ["python",
 - Add a task role with read access to one S3 prefix and reference it with `taskRoleArn`.
 - Convert the task definition to Terraform with `aws_ecs_task_definition` and reuse lab 02's testing approach.
 
-## If you have a sandbox
+## Live step
 
-Optional, in a sandbox account only (see [Use a sandbox account](../docs/how-to/use-a-sandbox-account.md)).
-Fargate has no free tier: a 0.25 vCPU task costs cents per hour, so stop it in the same session. Store the secret
-as a Parameter Store `SecureString` (standard tier, no charge); `valueFrom` then takes an
-`arn:aws:ssm:...:parameter/...` ARN, which the grader accepts.
-
-The solution sets `runtimePlatform` to `ARM64`. Build for that platform, or change it to `X86_64`:
-
-```bash
-cd labs/05-containers-to-ecs/solution
-aws ecr create-repository --repository-name harbor-catalog
-aws ecr get-login-password | docker login --username AWS --password-stdin \
-  "111122223333.dkr.ecr.us-east-1.amazonaws.com"
-docker buildx build --platform linux/arm64 --push \
-  --tag "111122223333.dkr.ecr.us-east-1.amazonaws.com/harbor-catalog:lab" .
-```
-
-Replace `111122223333` with the sandbox account ID. Then:
-
-1. Copy the pushed image digest into `image` (`...harbor-catalog@sha256:...`).
-2. Create the log group `/ecs/harbor-catalog`, the `SecureString` parameter, and an execution role with the
-   `AmazonECSTaskExecutionRolePolicy` managed policy plus `ssm:GetParameters` on that parameter.
-3. Register the task definition, create a cluster, and run one task in a public subnet of the default VPC with a
-   public IP and a security group that allows port 8080 from your IP only.
-4. Call `/products` on the task's public IP and show the request log lines in CloudWatch Logs.
-
-Cleanup:
-
-```bash
-aws ecs stop-task --cluster harbor-lab --task TASK_ARN
-aws ecs deregister-task-definition --task-definition harbor-catalog:1
-aws ecs delete-cluster --cluster harbor-lab
-aws ecr delete-repository --repository-name harbor-catalog --force
-aws logs delete-log-group --log-group-name /ecs/harbor-catalog
-aws ssm delete-parameter --name /harbor/catalog/db-password
-```
-
-Delete the execution role and the security group last, after the task has stopped.
+This lab has no live step, in line with [Use a sandbox account](../docs/how-to/use-a-sandbox-account.md) and the
+repository README. Running the task on ECS needs an ECR repository, a VPC, an ECS cluster, IAM roles and a
+secret, and Fargate has no free tier, so every running task is billed. Participants who want to see the image
+run on Fargate continue with the [ECS Fargate lab](https://github.com/gamaware/aws-ecs-fargate-deploy-lab), which
+builds the full service in Terraform.

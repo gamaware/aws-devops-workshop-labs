@@ -30,7 +30,7 @@ By the end, participants can:
 
 1. Run `make check LAB=02` on the starter. Point out that the first objective already passes: the starter ships
    one test, and it passes. The other two fail.
-2. Read `run blocks found: 1 (need 3 or more)`. The grader checks the learner's own suite, not only the module.
+2. Read `run blocks found: 1 (need 3 or more)`. The grader checks the participant's own suite, not only the module.
 3. Open `tests/queue_grader.tftest.hcl` and show the `override_resource` blocks: they give the two queues fixed
    ARNs, so the grader can tell them apart. Mention the `Invalid override target` warning: it stays until
    exercise 4 creates `aws_sqs_queue.dlq`, and it is not the failure.
@@ -51,7 +51,7 @@ contract`. The run block names tell you which exercise failed.
 | 6: encryption and tags | `modules/queue/main.tf` | contract check | `both_queues_are_encrypted_and_tagged` |
 | 7: redrive allow policy | `modules/queue/main.tf` | contract check | `failed_messages_reach_the_dead_letter_queue` |
 | 8: `dlq_url`, `dlq_arn` outputs | `modules/queue/outputs.tf` | contract check | `outputs_expose_both_queues` |
-| 9: own tests | `modules/queue/tests/queue.tftest.hcl` | `module: the learner's own terraform test suite passes` and `module: the own suite has 3+ run blocks, including an expect_failures test` | the learner's own run blocks |
+| 9: own tests | `modules/queue/tests/queue.tftest.hcl` | `module: the participant's own terraform test suite passes` and `module: the own suite has 3+ run blocks, including an expect_failures test` | the participant's own run blocks |
 
 ## Common mistakes
 
@@ -66,7 +66,7 @@ Error: Missing expected failure
 Failure! 0 passed, 1 failed, 7 skipped.
 ```
 
-Learners who start with the dead-letter queue see the same output as before and think the grader ignores their
+Participants who start with the dead-letter queue see the same output as before and think the grader ignores their
 work. Work the exercises in order, or run the grader's file yourself and read the first `fail` line.
 
 **Redrive allow policy written inline on the dead-letter queue.** `aws_sqs_queue` accepts a
@@ -92,7 +92,7 @@ redrive allow policy resource takes the dead-letter queue's `id`; `sourceQueueAr
 resource`.
 
 **Own tests that assert on ARNs under `command = plan`.** ARNs are unknown at plan time, and under a mocked
-provider they are random strings at apply time. Learners who assert
+provider they are random strings at apply time. Participants who assert
 `aws_sqs_queue.dlq.arn == "arn:aws:sqs:..."` see their own suite fail. Assert on names, flags and tags, or add an
 `override_resource` block like the grader does.
 

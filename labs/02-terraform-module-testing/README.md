@@ -23,7 +23,7 @@ After completing this lab, you can:
 
 ## Duration
 
-Allow 60 to 90 minutes.
+Allow 85 minutes.
 
 ## Scenario
 
@@ -95,7 +95,7 @@ Make your changes in `starter/`, following the numbered `Exercise` comments that
 ## Expected result
 
 ```text
-PASS   module: the learner's own terraform test suite passes
+PASS   module: the participant's own terraform test suite passes
 PASS   module: the own suite has 3+ run blocks, including an expect_failures test
 PASS   module: validations, dead-letter queue, encryption and outputs meet the contract
 RESULT all objectives met

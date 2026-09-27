@@ -24,7 +24,7 @@ After completing the lab, you can:
 
 ## Duration
 
-Allow 75 to 90 minutes.
+Allow 90 minutes.
 
 ## Scenario
 

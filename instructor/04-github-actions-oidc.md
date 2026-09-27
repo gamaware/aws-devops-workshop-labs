@@ -22,7 +22,7 @@ By the end, participants can:
 
 - Replace stored AWS access keys with a role that GitHub Actions assumes through OIDC.
 - Write a trust policy that admits one repository, one environment and the STS audience, and nothing else.
-- Scope a deploy policy to one bucket and the four S3 actions a sync needs.
+- Scope a deploy policy to one bucket and the three S3 actions a sync needs.
 - Harden a workflow: `permissions: {}` by default, `id-token: write` on the deploy job only, SHA-pinned actions,
   `persist-credentials: false`, timeouts, and a deploy that runs only for pushes to `main`.
 - Read zizmor findings and the offline OIDC dry run.
@@ -47,23 +47,24 @@ By the end, participants can:
 
 ## Exercise map
 
-The starter files for this lab carry no `Exercise N` comments. Give participants this task list; each task maps
-to grader tests in `tests/test_grader.py`, all reported under one check:
+The starter workflow lists five `Exercise N` comments at the top of `workflows/deploy.yml`; Exercise 5 points to
+the two IAM policies. The table splits each exercise into tasks and maps them to grader tests in
+`tests/test_grader.py`, all reported under one check:
 `workflow uses OIDC, SHA pins, least privilege; trust and deploy policies are tight`. The zizmor check,
-`workflow passes zizmor's security audit (offline)`, covers tasks 3, 5 and 6 from another angle.
+`workflow passes zizmor's security audit (offline)`, covers exercises 1, 3 and 4 from another angle.
 
-| Task | File | Grader tests |
-| --- | --- | --- |
-| 1: trust only production deploys of `harbor-goods/storefront`, audience `sts.amazonaws.com` | `iam/trust-policy.json` | `test_trust_policy_admits_only_production_deploys_from_main`, `test_trust_policy_matches_the_subject_exactly` |
-| 2: limit the deploy policy to the site bucket | `iam/deploy-policy.json` | `test_deploy_policy_is_limited_to_the_site_bucket` |
-| 3: replace the keys with `role-to-assume` | `workflows/deploy.yml` | `test_no_long_lived_aws_keys`, `test_the_deploy_role_is_assumed_with_oidc` |
-| 4: split into `validate` and `deploy` jobs; deploy needs validate, runs for pushes to `main`, uses `production` | `workflows/deploy.yml` | `test_deploy_runs_only_for_pushes_to_main_in_production` |
-| 5: `permissions: {}` at the top; `contents: read` and `id-token: write` on deploy | `workflows/deploy.yml` | `test_workflow_grants_no_permissions_by_default`, `test_only_the_deploy_job_can_request_an_oidc_token` |
-| 6: pin every action to a 40-character commit SHA | `workflows/deploy.yml` | `test_every_action_is_pinned_to_a_commit_sha` |
-| 7: `persist-credentials: false` on every checkout | `workflows/deploy.yml` | `test_checkout_does_not_keep_the_github_token` |
-| 8: `timeout-minutes` on every job | `workflows/deploy.yml` | `test_every_job_has_a_timeout` |
+| Exercise | Task | File | Grader tests |
+| --- | --- | --- | --- |
+| 1 | `permissions: {}` at the top; `contents: read` and `id-token: write` on deploy | `workflows/deploy.yml` | `test_workflow_grants_no_permissions_by_default`, `test_only_the_deploy_job_can_request_an_oidc_token` |
+| 2 | Split into `validate` and `deploy` jobs; deploy needs validate, runs for pushes to `main`, uses `production` | `workflows/deploy.yml` | `test_deploy_runs_only_for_pushes_to_main_in_production` |
+| 2 | `timeout-minutes` on every job | `workflows/deploy.yml` | `test_every_job_has_a_timeout` |
+| 3 | Replace the keys with `role-to-assume` | `workflows/deploy.yml` | `test_no_long_lived_aws_keys`, `test_the_deploy_role_is_assumed_with_oidc` |
+| 4 | Pin every action to a 40-character commit SHA | `workflows/deploy.yml` | `test_every_action_is_pinned_to_a_commit_sha` |
+| 4 | `persist-credentials: false` on every checkout | `workflows/deploy.yml` | `test_checkout_does_not_keep_the_github_token` |
+| 5 | Trust only production deploys of `harbor-goods/storefront`, audience `sts.amazonaws.com` | `iam/trust-policy.json` | `test_trust_policy_admits_only_production_deploys_from_main`, `test_trust_policy_matches_the_subject_exactly` |
+| 5 | Limit the deploy policy to the site bucket | `iam/deploy-policy.json` | `test_deploy_policy_is_limited_to_the_site_bucket` |
 
-Task 6 needs commit SHAs, which need network access to look up. If the network blocks GitHub, give participants
+Exercise 4 needs commit SHAs, which need network access to look up. If the network blocks GitHub, give participants
 the pins from the solution workflow.
 
 ## Common mistakes
@@ -89,8 +90,9 @@ E   AssertionError: trust policy dry run:
 job with `environment: production` gets the environment subject, so IAM denies the real deploy:
 `push-main-production: expected allow, got deny`.
 
-**`s3:*` or a wildcard resource.** The grader allows only `s3:ListBucket`, `s3:GetObject`, `s3:PutObject` and
-`s3:DeleteObject`, on `arn:aws:s3:::harbor-goods-storefront-site` and its objects:
+**`s3:*` or a wildcard resource.** The grader allows only `s3:ListBucket`, `s3:PutObject` and `s3:DeleteObject`,
+which the solution grants, plus an optional `s3:GetObject`, on `arn:aws:s3:::harbor-goods-storefront-site` and its
+objects:
 `unexpected actions: ['s3:*']`.
 
 **Deploy guarded only by the trigger.** Removing `pull_request` from `on:` is not enough. The grader reads the

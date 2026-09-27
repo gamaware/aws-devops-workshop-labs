@@ -1,6 +1,8 @@
 # Half-day agendas
 
-Each agenda fills four hours with two labs, two breaks and a wrap-up. Times are offsets from the start of the
+Each agenda fills four hours with two labs, two breaks and a wrap-up. Lab blocks match the durations in the lab
+READMEs and instructor notes: 85 minutes for labs 01 to 03, 80 for lab 04 and 90 for lab 05, each made of a
+10-minute brief and demo, work time and a 15-minute debrief. Times are offsets from the start of the
 session. Start the recording after the setup check and pause it during breaks.
 
 ## Terraform half day (labs 01 and 02)
@@ -53,10 +55,10 @@ Lab 03 needs Node.js for the CDK runtime. The first synthesis in a session takes
 | 1:40 | 15 | Lab 03 debrief | When to acknowledge a rule and when to fix the resource |
 | 1:55 | 15 | Break | |
 | 2:10 | 10 | Lab 04 brief and demo | See [04-github-actions-oidc.md](04-github-actions-oidc.md) |
-| 2:20 | 60 | Lab 04 work time | Trust policy and deploy policy first, then the workflow |
-| 3:20 | 15 | Lab 04 debrief | Which job needs `id-token: write`, and why pull requests never get it |
-| 3:35 | 5 | Break | |
-| 3:40 | 15 | Connect the two labs | Where `cdk deploy` fits in the lab 04 workflow, and what role it would assume |
+| 2:20 | 55 | Lab 04 work time | Trust policy and deploy policy first, then the workflow |
+| 3:15 | 15 | Lab 04 debrief | Which job needs `id-token: write`, and why pull requests never get it |
+| 3:30 | 5 | Break | |
+| 3:35 | 20 | Connect the two labs | Where `cdk deploy` fits in the lab 04 workflow, and what role it would assume |
 | 3:55 | 5 | Wrap-up | Stretch goals as practice, feedback form |
 
 ## Adjust the timing

@@ -23,7 +23,7 @@ After completing the lab, you can:
 
 ## Duration
 
-Allow 60 to 75 minutes for the lab and another 15 minutes if you take the optional sandbox step.
+Allow 85 minutes for the lab and another 15 minutes if you take the optional sandbox step.
 
 ## Scenario
 

@@ -5,13 +5,13 @@ Lab directory: [labs/01-terraform-remote-state](../labs/01-terraform-remote-stat
 
 ## Timing
 
-Suggested duration: 90 minutes.
+Suggested duration: 85 minutes.
 
 | Part | Minutes |
 | --- | --- |
 | Brief | 5 |
 | Opening demo | 5 |
-| Work time | 65 |
+| Work time | 60 |
 | Debrief | 15 |
 
 In a 1:1 session, plan exercises 1 to 5 for the session and 6 to 8 as practice.
@@ -66,7 +66,7 @@ Error: Missing expected failure
   run "exposes_the_backend_settings"... skip
 ```
 
-Tell the learner to finish exercise 1 first. The same applies to the app file: exercise 6 unlocks exercise 7.
+Tell the participant to finish exercise 1 first. The same applies to the app file: exercise 6 unlocks exercise 7.
 
 **Bucket policy built with the `aws_iam_policy_document` data source.** This works against real AWS, but under
 the mocked provider the data source returns a random string for `json`, so the policy is not JSON:
@@ -119,7 +119,7 @@ lock with `use_lockfile = true` in S3 itself; the grader expects that setting.
 
 ## If you have a sandbox
 
-Optional, facilitator or participant, in a sandbox account only (see
+Optional, instructor or participant, in a sandbox account only (see
 [Use a sandbox account](../docs/how-to/use-a-sandbox-account.md)). Use the solution or a passing starter.
 
 ```bash

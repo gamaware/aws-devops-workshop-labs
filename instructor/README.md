@@ -1,13 +1,13 @@
-# Facilitator guide
+# Instructor guide
 
 This folder holds everything you need to run the labs with a person or a team: how each engagement format uses
-the repository, what to send participants before the first session, how to run one lab, how to unblock a learner,
+the repository, what to send participants before the first session, how to run one lab, how to unblock a participant,
 and how to adapt a lab to a client's own stack.
 
 The labs use a fictional retailer, Harbor Goods. Every lab runs offline by default: the graders use mocked
 providers, synthesized templates and local Docker, so nobody needs AWS credentials to finish a lab. Participants
-who want to see real resources use their own free-tier sandbox account or one the client supplies. You never need
-access to the client's company accounts. Deliver in English or Spanish; the lab code, grader output and these notes
+who want to see real resources use their own sandbox account. You never need access to the client's company
+accounts. Deliver in English or Spanish; the lab code, grader output and these notes
 stay in English.
 
 ## Files in this folder
@@ -22,7 +22,7 @@ stay in English.
 | [04-github-actions-oidc.md](04-github-actions-oidc.md) | Lab 04 notes: GitHub Actions to AWS through OIDC |
 | [05-containers-to-ecs.md](05-containers-to-ecs.md) | Lab 05 notes: a hardened image and a Fargate task definition |
 
-## The learner loop
+## The participant loop
 
 Every lab works the same way, so explain it once at the start:
 
@@ -41,7 +41,7 @@ mean the grader could not run at all. See [the grader contract](../docs/referenc
 
 | Format | Shape | Labs | Timing |
 | --- | --- | --- | --- |
-| Starter | Three 1-hour 1:1 mentoring sessions, written notes after each | One lab per session, chosen with the learner | 10 min review, 40 min lab, 10 min recap |
+| Starter | Three 1-hour 1:1 mentoring sessions, written notes after each | One lab per session, chosen with the participant | 10 min review, 40 min lab, 10 min recap |
 | Standard | Remote half-day workshop on one topic, up to 12 people, recorded | Two labs from one track | 4 hours, see [agenda-half-day.md](agenda-half-day.md) |
 | Advanced | Two half-day workshops plus a Q&A call a week later | Labs adapted to the client's stack | 2 x 4 hours, plus a 60-minute call |
 
@@ -50,12 +50,12 @@ mean the grader could not run at all. See [the grader contract](../docs/referenc
 Agree on the goal in the first five minutes of session 1, then pick the path. A common Terraform path is lab 01,
 lab 02, then lab 04; a CDK path is lab 03, lab 04, then lab 05.
 
-- Minutes 0 to 10: review the notes from the last session and the practice the learner did since.
-- Minutes 10 to 50: the learner drives and you pair. Run the 5-minute opening demo from the lab notes, then let
-  the learner work through the exercises with `make check` after each one.
+- Minutes 0 to 10: review the notes from the last session and the practice the participant did since.
+- Minutes 10 to 50: the participant drives and you pair. Run the 5-minute opening demo from the lab notes, then let
+  the participant work through the exercises with `make check` after each one.
 - Minutes 50 to 60: recap the concepts, agree on the practice, and note open questions.
 
-A full lab takes 60 to 90 minutes, longer than one session. Stop at a clean point, record which checks pass, and
+A full lab takes 80 to 90 minutes, longer than one session. Stop at a clean point, record which checks pass, and
 set the remaining exercises as practice. Send the notes within one working day using
 [mentoring-notes-template.md](mentoring-notes-template.md).
 
@@ -123,11 +123,11 @@ Every lab uses the same four-part rhythm. The per-lab notes give the timings and
 Announce the time left at the halfway point and five minutes before the end. People who finish early take the
 stretch goals.
 
-## Handle stuck learners
+## Handle stuck participants
 
-Work through these steps in order and stop as soon as the learner moves again.
+Work through these steps in order and stop as soon as the participant moves again.
 
-1. **One failing check at a time.** Ask the learner to read the first `FAIL` line and its message aloud. Most
+1. **One failing check at a time.** Ask the participant to read the first `FAIL` line and its message aloud. Most
    blocks come from reading all the output at once. The grader shows the last 40 lines of each failing check, so
    the first failure inside a check can scroll away. Run the underlying test on its own to see it in full:
 
@@ -137,8 +137,8 @@ Work through these steps in order and stop as soon as the learner moves again.
      uv run pytest labs/04-github-actions-oidc/tests/test_grader.py -k trust_policy
    ```
 
-2. **Pair.** Put the learner with someone who passed that check, in a breakout room, for five minutes. The helper
-   explains; the stuck learner types.
+2. **Pair.** Put the participant with someone who passed that check, in a breakout room, for five minutes. The helper
+   explains; the stuck participant types.
 3. **Compare with the solution, one file only.** Grade the solution to prove the check can pass, then show the diff
    for the one file behind the failing check:
 
@@ -148,7 +148,7 @@ Work through these steps in order and stop as soon as the learner moves again.
      labs/01-terraform-remote-state/solution/app/versions.tf
    ```
 
-4. **Reset.** If the starter is in a state the learner cannot explain, run `make reset LAB=NN` and redo the
+4. **Reset.** If the starter is in a state the participant cannot explain, run `make reset LAB=NN` and redo the
    exercises that passed. It takes less time than debugging a broken edit.
 
 A `BROKEN` line means the code no longer parses, validates or synthesizes. Fix that before you look at any

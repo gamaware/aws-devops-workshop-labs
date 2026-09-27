@@ -23,7 +23,7 @@ After completing the lab, you can:
 
 ## Duration
 
-Allow 60 to 75 minutes.
+Allow 85 minutes.
 
 ## Scenario
 
@@ -96,7 +96,7 @@ Use `starter/` for your work; the numbers in its `Exercise` comments correspond 
 
 ```text
 ok     the stack synthesizes (without cdk-nag)
-PASS   own tests: the learner's assertion tests pass
+PASS   own tests: the participant's assertion tests pass
 PASS   own tests: 3 or more assertion tests
 PASS   cdk-nag passes and the template keeps data private, encrypted and retained
 RESULT all objectives met

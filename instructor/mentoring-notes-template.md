@@ -2,7 +2,7 @@
 
 Send these notes within one working day of each 1:1 session in the Starter format. Copy the block below into an
 email or a shared document, fill in each section, and delete the guidance lines in parentheses. Keep it under one
-page: the learner reads it before the next session.
+page: the participant reads it before the next session.
 
 ```markdown
 # Session N of 3: short topic
@@ -13,7 +13,7 @@ Format: Starter, 1:1, 60 minutes
 
 ## Goals for this session
 
-- (Two or three goals agreed at the start, in the learner's words.)
+- (Two or three goals agreed at the start, in the participant's words.)
 
 ## What we did
 
@@ -50,8 +50,8 @@ Format: Starter, 1:1, 60 minutes
 ## Tips for writing the notes
 
 - Record the grader state as check names, not as percentages. "The partial backend check passes" tells the
-  learner more than "80 % done".
-- Write skills as actions the learner can repeat without you.
+  participant more than "80 % done".
+- Write skills as actions the participant can repeat without you.
 - Keep answers to open questions short and link the source you used.
-- Never include credentials, account IDs or internal names from the learner's employer. Use the Harbor Goods
+- Never include credentials, account IDs or internal names from the participant's employer. Use the Harbor Goods
   names from the labs.
