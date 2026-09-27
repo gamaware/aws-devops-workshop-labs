@@ -1,0 +1,34 @@
+language: en-US
+reviews:
+  auto_review:
+    enabled: true
+    drafts: false
+  path_instructions:
+    - path: "labs/*/starter/**"
+      instructions: >-
+        Starters are intentionally incomplete or insecure: they are the exercises. Do not suggest fixing them.
+        Check only that they stay valid (they must parse and validate) and that Exercise comments match the lab
+        README.
+    - path: "labs/*/solution/**"
+      instructions: >-
+        Solutions are model answers participants copy. Hold them to production standards: least privilege,
+        encryption, pinned versions and digests, every scanner skip with a reason next to the resource.
+    - path: "labs/*/tests/**"
+      instructions: >-
+        Graders follow the exit-code contract in scripts/lib/grader.sh (0 met, 1 not met, 2 broken). A new check
+        must pass on the solution and fail on the starter. Tests must never reach AWS (mock_provider only).
+    - path: "labs/*/README.md"
+      instructions: >-
+        Keep the sections Objectives, Prerequisites, Duration, Scenario, Steps, Expected result and Reset in order.
+        Second person, active voice. Steps must match the starter's Exercise comments and the grader's checks.
+    - path: "**/*.sh"
+      instructions: >-
+        Must pass shellcheck and shellharden; quote variables; use arrays for arguments.
+    - path: ".github/workflows/*.yml"
+      instructions: >-
+        Actions pinned by full SHA, permissions {} at workflow level, timeout-minutes on every job, event data
+        through env. No job gets id-token or AWS credentials.
+    - path: "**/*.md"
+      instructions: >-
+        Lines up to 120 characters (tables exempt). Fictional names only (Harbor Goods, example.com, AWS
+        documentation account IDs). No dates.

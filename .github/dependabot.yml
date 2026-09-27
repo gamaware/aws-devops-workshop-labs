@@ -1,0 +1,41 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      actions:
+        patterns: ["*"]
+
+  # aws-cdk-lib, cdk-nag, pytest, actionlint and zizmor for lab 03 and the graders.
+  - package-ecosystem: uv
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      python:
+        patterns: ["*"]
+
+  # The python base image digest in the lab 05 solution.
+  - package-ecosystem: docker
+    directory: /labs/05-containers-to-ecs/solution
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: terraform
+    directories:
+      - /labs/01-terraform-remote-state/solution/bootstrap
+      - /labs/01-terraform-remote-state/solution/app
+      - /labs/02-terraform-module-testing/solution/modules/queue
+      - /labs/02-terraform-module-testing/solution/examples/basic
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7

@@ -1,0 +1,5 @@
+# Starters are incomplete on purpose (they are the exercises). scripts/verify-labs.sh
+# proves each one fails its grader; the solutions are scanned in full. See ADR 0003.
+labs/*/starter/
+.venv/
+.cache/
