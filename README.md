@@ -1,14 +1,16 @@
-# aws-devops-workshop-labs
+# AWS DevOps workshop labs
 
 These five hands-on labs cover AWS, Terraform, CDK and CI/CD training. Every lab includes a starter, a solution and a
 grader that participants can run on a laptop without an AWS account.
 
-[![ci](https://github.com/gamaware/aws-devops-workshop-labs/actions/workflows/ci.yml/badge.svg)](https://github.com/gamaware/aws-devops-workshop-labs/actions/workflows/ci.yml)
+[![CI](https://github.com/gamaware/aws-devops-workshop-labs/actions/workflows/ci.yml/badge.svg)](https://github.com/gamaware/aws-devops-workshop-labs/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-![Lab](https://img.shields.io/badge/type-lab-lightgrey.svg)
-![Fictional client](https://img.shields.io/badge/client-fictional%20sample-lightgrey.svg)
+![Lab](https://img.shields.io/badge/type-lab-5b6b7f)
 
-<img src="docs/assets/cover.png" alt="AWS workshop and mentoring: lab repos, live hands-on sessions, review" width="720">
+![AWS workshop and mentoring](docs/assets/cover.png)
+
+> **Lab.** Harbor Goods and all data here are fictional. Each repository in this portfolio is a separate engagement
+> with Harbor Goods, a fictional mid-size retailer. Account IDs are AWS documentation examples.
 
 ## What this proves
 
@@ -32,15 +34,15 @@ grader that participants can run on a laptop without an AWS account.
 | [`labs/01-terraform-remote-state/tests/`](labs/01-terraform-remote-state/tests) | What a hardened state bucket must guarantee, as mocked tests |
 | [`labs/03-cdk-python-assertions/tests/test_grader.py`](labs/03-cdk-python-assertions/tests/test_grader.py) | cdk-nag plus template assertions, and a rule against suppressing findings |
 | [`scripts/verify-labs.sh`](scripts/verify-labs.sh) | The check that every solution passes and every starter fails |
-| [`instructor/`](instructor/README.md) | Facilitator guide, half-day agenda, notes per lab |
+| [`instructor/`](instructor/README.md) | Instructor guide, half-day agenda, notes per lab |
 | [`docs/`](docs/README.md) | How-to guides, reference and explanations (Diátaxis) |
 
 ## Scenario and acceptance criteria
 
-The fictional mid-size retailer Harbor Goods is migrating its storefront to AWS. Its engineers have Linux and Git
-experience and some Terraform experience, but they have not configured remote state, tested infrastructure code or
-deployed without stored keys. Their team lead requests a half-day workshop followed by mentoring. Participants bring
-their own laptops; the workshop excludes the company's AWS accounts.
+Harbor Goods wants to train its platform team. The engineers have Linux and Git experience and some Terraform
+experience, but they have not configured remote state, tested infrastructure code or deployed without stored keys.
+Their team lead requests a half-day workshop on one two-lab track, followed by mentoring. Participants bring their own
+laptops; the workshop excludes the company's AWS accounts.
 
 | Acceptance criterion | How it is met | Checked by |
 | --- | --- | --- |
@@ -62,29 +64,21 @@ and graders published by the instructor. The client's AWS accounts are unnecessa
 
 | Lab | Topic | Duration | AWS services it teaches |
 | --- | --- | --- | --- |
-| [01](labs/01-terraform-remote-state/README.md) | Terraform fundamentals and the remote-state pattern | 60-75 min | S3, Systems Manager Parameter Store |
-| [02](labs/02-terraform-module-testing/README.md) | A Terraform module and its `terraform test` suite | 60-90 min | SQS with a dead-letter queue |
-| [03](labs/03-cdk-python-assertions/README.md) | AWS CDK in Python with assertions and cdk-nag | 60-75 min | S3 with access logs |
-| [04](labs/04-github-actions-oidc/README.md) | GitHub Actions to AWS with OIDC, checked offline | 60-75 min | IAM OIDC provider, STS, S3 |
-| [05](labs/05-containers-to-ecs/README.md) | From a Dockerfile to an ECS task definition | 75-90 min | ECR, ECS on Fargate, Secrets Manager, CloudWatch Logs |
+| [01](labs/01-terraform-remote-state/README.md) | Terraform fundamentals and the remote-state pattern | 85 min | S3, Systems Manager Parameter Store |
+| [02](labs/02-terraform-module-testing/README.md) | A Terraform module and its `terraform test` suite | 85 min | SQS with a dead-letter queue |
+| [03](labs/03-cdk-python-assertions/README.md) | AWS CDK in Python with assertions and cdk-nag | 85 min | S3 with access logs |
+| [04](labs/04-github-actions-oidc/README.md) | GitHub Actions to AWS with OIDC, checked offline | 80 min | IAM OIDC provider, STS, S3 |
+| [05](labs/05-containers-to-ecs/README.md) | From a Dockerfile to an ECS task definition | 90 min | ECR, ECS on Fargate, Secrets Manager, CloudWatch Logs |
 
-Consult the [lab path diagram](docs/diagrams/02-lab-path.svg) for what each lab builds and the
-[OIDC flow](docs/diagrams/03-oidc-flow.svg) for lab 04. Each export has its `.drawio` source alongside it.
+Durations include a 10-minute brief and demo and a 15-minute debrief, as in the
+[half-day agendas](instructor/agenda-half-day.md). Consult the [lab path diagram](docs/diagrams/02-lab-path.svg)
+for what each lab builds and the [OIDC flow](docs/diagrams/03-oidc-flow.svg) for lab 04.
+Each export has its `.drawio` source alongside it.
 
 ## Verify locally
 
-Prerequisites below reflect the versions used for repository verification; consult [tooling](docs/reference/tooling.md):
-
-| Tool | Version |
-| --- | --- |
-| uv | 0.12 or later (installs Python and the locked packages) |
-| Terraform | 1.14.5 (1.11 or later works) |
-| Node.js | 22 or 24 (aws-cdk-lib runs on it) |
-| Docker | 29, with the daemon running |
-| hadolint | 2.15.1 |
-| tflint | 0.61.0 (AWS ruleset 0.49.0) |
-| Checkov | 3.2 or later |
-| Trivy | 0.74.0 |
+Prerequisites: uv, Terraform, Node.js, Docker with the daemon running, hadolint, tflint, Checkov (run through uv) and
+Trivy. The [tooling reference](docs/reference/tooling.md) lists the versions CI uses.
 
 ```bash
 make verify
@@ -99,7 +93,7 @@ lab                              solution   starter    verdict
 01-terraform-remote-state        exit 0     exit 1     ok
 ...
 verify-labs: 5 lab(s) ok (solutions pass, starters fail as intended)
-make verify: all checks passed
+verify: all checks passed
 ```
 
 To assess their work, participants run `make check LAB=01`; to begin again, they run `make reset LAB=01`. The complete
@@ -119,7 +113,7 @@ labs/
     solution/           model answer
     tests/run.sh        grader (exit 0 met, 1 not met, 2 broken)
 fixtures/oidc-claims/   sample GitHub OIDC token claims for the lab 04 dry run
-instructor/             facilitator guide, half-day agenda, notes per lab, mentoring notes template
+instructor/             instructor guide, half-day agenda, notes per lab, mentoring notes template
 docs/
   how-to/               set up a machine, use a sandbox account, run the live test, add a lab
   reference/            grader contract, make targets, tooling
@@ -132,9 +126,11 @@ Makefile                one entry point for local and CI runs
 
 ## Decisions and trade-offs
 
+Architecture decision records follow the *Fundamentals of Software Architecture* (2nd ed.) format.
+
 | Number | Title | Status |
 | --- | --- | --- |
-| [0001](docs/adr/0001-starter-solution-grader-per-lab.md) | Every lab ships a starter, a solution and a grader | Accepted |
+| [0001](docs/adr/0001-starter-solution-grader-per-lab.md) | Every lab ships a starter, a solution and a grader, and the build proves the starter needs work | Accepted |
 | [0002](docs/adr/0002-offline-first-labs.md) | Labs run offline by default; a sandbox account is optional | Accepted |
 | [0003](docs/adr/0003-starters-graded-not-scanned.md) | Graders check the starters; scanners skip them | Accepted |
 | [0004](docs/adr/0004-one-locked-python-environment.md) | One locked Python environment for the CDK lab and the graders | Accepted |
@@ -143,17 +139,18 @@ Makefile                one entry point for local and CI runs
 
 | Gate | Runs in | Why |
 | --- | --- | --- |
-| Lab grading (solutions pass, starters fail) | `make labs`, CI `labs` job | Labs stay working and stay exercises |
-| Docs check | `make docs-check`, CI `labs` job | Required lab sections, instructor notes, working relative links |
-| ruff, shellcheck, shellharden, terraform fmt, tflint | `make lint`, `make tflint`, pre-commit, shared `terraform` workflow | Consistent, correct code |
-| Checkov, Trivy, Semgrep | `make checkov`, `make trivy`, shared `security` workflow | Policy and misconfiguration checks on the solutions; skips carry reasons in the code |
+| Lab grading (solutions pass, starters fail) | `make labs`, CI `verify` job | Labs stay working and stay exercises |
+| Docs check | `make docs-check`, CI `verify` job | Required lab sections, instructor notes, working relative links |
+| ruff, shellcheck, shellharden, terraform fmt, tflint | `make lint`, `make tflint`, CI `verify` job, pre-commit, shared `terraform` workflow | Consistent, correct code |
+| Checkov, Trivy, Semgrep | `make checkov`, `make trivy`, CI `verify` job, shared `security` workflow | Policy and misconfiguration checks on the solutions; skips carry reasons in the code |
 | hadolint, image build and Trivy image scan | pre-commit, shared `container` workflow | The lab 05 solution image |
 | actionlint, zizmor | pre-commit, shared `lint-actions` workflow, lab 04 grader | Workflow correctness and hardening |
 | gitleaks, detect-secrets | pre-commit, shared `secrets` workflow | No credentials in the history |
 | markdownlint, Vale, lychee | pre-commit, shared `lint-docs` workflow | Readable docs and working links |
 | OpenSSF Scorecard | `scorecard.yml` | Repository supply-chain posture |
 
-Through reusable workflows pinned to a commit SHA, `ci.yml` invokes the shared checks from
+The CI `verify` job runs `make verify`, the same command as a local run. Through reusable workflows pinned to a
+commit SHA, `ci.yml` also invokes the shared checks from
 [gamaware/.github](https://github.com/gamaware/.github). Each workflow begins with `permissions: {}`, uses SHA-pinned
 actions and defines timeouts. All jobs run without cloud credentials.
 
@@ -168,16 +165,15 @@ actions and defines timeouts. All jobs run without cloud credentials.
   [ECS Fargate lab](https://github.com/gamaware/aws-ecs-fargate-deploy-lab) covers building the full service.
 - **Engagement additions:** a real engagement includes rebuilding labs around the client's repositories and stack in the
   Advanced format, English or Spanish sessions, recordings and written notes following every mentoring session.
-- **Running costs:** offline work costs nothing. Optional sandbox work stays within the AWS Free Tier if participants
-  follow each lab's Reset section to clean up.
+- **Running costs:** offline work costs nothing. Optional sandbox steps exist for labs 01 to 04 and cost a few cents
+  per lab if participants follow each lab's Reset section. Lab 05 has no live step: Fargate has no free tier, so the
+  lab stays on local Docker.
 
 ## Related work
 
-This repository belongs to the [AWS DevOps portfolio](https://github.com/gamaware/aws-devops-portfolio) and supports the
-service "AWS workshop and mentoring: hands-on AWS, Terraform, CDK or CI/CD training for you or your team", available
-through [Alex Garcia on Upwork](https://www.upwork.com/freelancers/~014b3520cf9e140103). Its lab structure mirrors Alex
-Garcia's cloud architecture and systems design courses at ITESO, pairing a starter with a guided tutorial and a
-learner-run check. No student data appears in the repository, and all lab names, including Harbor Goods, are fictional.
+This repository belongs to the [AWS DevOps portfolio](https://github.com/gamaware/aws-devops-portfolio) and backs the
+"AWS workshop and mentoring" service:
+[AWS workshop and mentoring on Upwork](https://www.upwork.com/freelancers/~014b3520cf9e140103).
 
 ## License
 
