@@ -1,6 +1,8 @@
 # 0004. One locked Python environment for the CDK lab and the graders
 
-Status: Accepted
+## Status
+
+Accepted
 
 ## Context
 
@@ -14,11 +16,6 @@ The repository has one `pyproject.toml` and one `uv.lock`. `make setup` runs `uv
 `uv run --frozen`. actionlint and zizmor come from PyPI wheels (`actionlint-py`, `zizmor`), so participants do not
 install them separately. Dependabot updates the lock file weekly.
 
-## Alternatives
-
-- `requirements.txt` per lab: simple, but no lock and no shared resolution.
-- System-wide tools: versions differ per laptop, and graders give different answers.
-
 ## Consequences
 
 - Participants install `uv`; it downloads a matching Python when needed.
@@ -31,3 +28,8 @@ install them separately. Dependabot updates the lock file weekly.
 ## Notes
 
 The CDK CLI is optional: the graders synthesize through the Python library, and `npx aws-cdk@2` covers ad hoc use.
+
+Alternatives considered:
+
+- `requirements.txt` per lab: simple, but no lock and no shared resolution.
+- System-wide tools: versions differ per laptop, and graders give different answers.

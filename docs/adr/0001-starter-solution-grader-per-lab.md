@@ -1,6 +1,8 @@
 # 0001. Every lab ships a starter, a solution and a grader, and the build proves the starter needs work
 
-Status: Accepted
+## Status
+
+Accepted
 
 ## Context
 
@@ -25,12 +27,6 @@ Participants run the same grader with `make check LAB=NN`.
 The grader copies the target to a temporary directory before grading. `terraform test` accepts only a test directory
 inside the configuration, and the copy keeps `.terraform`, `cdk.out` and test files out of the participant's work.
 
-## Alternatives
-
-- Solution only, with instructions to type it in: no feedback, and nothing proves the exercise asks for work.
-- Git branches per step: hard to diff for beginners, and branches drift from `main`.
-- A hosted grading service: needs accounts and network access that client workshops often cannot provide.
-
 ## Consequences
 
 - Graders fix some names (for example resources called `state` in lab 01); each lab README states them.
@@ -39,9 +35,15 @@ inside the configuration, and the copy keeps `.terraform`, `cdk.out` and test fi
 
 ## Compliance
 
-`make labs` and the CI `labs` job run `scripts/verify-labs.sh`. `scripts/check_docs.py` (`make docs-check`) fails when
+`make labs` and the CI `verify` job run `scripts/verify-labs.sh`. `scripts/check_docs.py` (`make docs-check`) fails when
 a lab lacks `starter/`, `solution/`, an executable `tests/run.sh`, instructor notes or a required README section.
 
 ## Notes
 
 [The grader contract reference](../reference/grader-contract.md) describes the contract for contributors.
+
+Alternatives considered:
+
+- Solution only, with instructions to type it in: no feedback, and nothing proves the exercise asks for work.
+- Git branches per step: hard to diff for beginners, and branches drift from `main`.
+- A hosted grading service: needs accounts and network access that client workshops often cannot provide.

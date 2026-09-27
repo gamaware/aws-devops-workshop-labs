@@ -1,6 +1,8 @@
 # 0002. Labs run offline by default; a sandbox account is optional
 
-Status: Accepted
+## Status
+
+Accepted
 
 ## Context
 
@@ -18,18 +20,14 @@ Every graded objective runs without AWS credentials:
   claims (`fixtures/oidc-claims/`) with a small offline evaluator;
 - the container lab builds and runs the image in local Docker under Fargate-like restrictions.
 
-Each lab adds an optional step for a personal free-tier sandbox account, with its own cleanup.
-
-## Alternatives
-
-- Live labs only: stronger evidence, but setup-heavy, billable and fragile in a classroom.
-- LocalStack or Moto: closer to live behavior for some services, but another tool to install and version, with gaps
-  in IAM and STS behavior that matter for lab 04.
+[Use a sandbox account](../how-to/use-a-sandbox-account.md) adds optional live steps for labs 01 to 04 in a
+personal sandbox account, each with its own cleanup. Lab 05 has no live step:
+Fargate has no free tier, and local Docker already exercises what the grader checks.
 
 ## Consequences
 
 - Graders prove configuration intent, not AWS behavior: IAM permissions, quotas and real token exchange stay unproven
-  offline. [What offline tests prove](../explanation/what-offline-tests-prove.md) states the limits for learners.
+  offline. [What offline tests prove](../explanation/what-offline-tests-prove.md) states the limits for participants.
 - The OIDC evaluator covers only the condition operators GitHub trust policies use; it is a teaching aid.
 - `make test-live` applies the Terraform solutions to a real account by hand to close part of the gap.
 
@@ -42,3 +40,9 @@ needed AWS would fail there.
 
 The first run still downloads providers, Python packages and a base image; after that, the labs run without a
 network.
+
+Alternatives considered:
+
+- Live labs only: stronger evidence, but setup-heavy, billable and fragile in a classroom.
+- LocalStack or Moto: closer to live behavior for some services, but another tool to install and version, with gaps
+  in IAM and STS behavior that matter for lab 04.
