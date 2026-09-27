@@ -14,7 +14,7 @@ Run `make` or `make help` to list the targets. Every target runs from the reposi
 | `tflint` | `terraform init -backend=false` and `tflint` with `.tflint.hcl` in every Terraform directory, starters included |
 | `labs` | `scripts/verify-labs.sh`: every solution must pass its grader and every starter must fail it |
 | `docs-check` | `scripts/check_docs.py`: lab structure, README sections, instructor notes, relative links, placeholder markers |
-| `checkov` | `checkov --config-file .checkov.yaml` on the lab solutions and workflows |
+| `checkov` | Checkov 3.3.19 (through `uvx`) with `.checkov.yaml` on the lab solutions and workflows |
 | `trivy` | `trivy fs` misconfiguration and secret scan at HIGH and CRITICAL, skipping `labs/*/starter`, `.terraform`, `.venv` and `.cache` |
 | `check` | `labs/$(LAB)-*/tests/run.sh labs/$(LAB)-*/$(TARGET)`: grades one lab |
 | `reset` | `scripts/reset-lab.sh $(LAB)`: restores one starter from Git, after a confirmation |

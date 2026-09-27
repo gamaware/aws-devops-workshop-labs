@@ -8,8 +8,13 @@ Versions pinned in the repository, and the checks CI runs.
 | --- | --- | --- |
 | Terraform | `>= 1.11.0, < 2.0.0`; CI uses 1.14.5 | `versions.tf` of each lab, `.github/workflows/ci.yml` |
 | AWS provider | `>= 6.0, < 7.0`, locked at 6.66.0 | `versions.tf`, `.terraform.lock.hcl` in each Terraform directory |
+| uv | 0.12 or later; CI installs the current release through `astral-sh/setup-uv` | `.github/workflows/ci.yml` |
+| Python | 3.13, installed by uv (`requires-python` allows 3.12 or later) | `.python-version`, `pyproject.toml` |
+| tflint | 0.61.0 | `.github/workflows/ci.yml` (`setup-tflint`, and `tflint-version` for the shared `terraform` workflow) |
 | tflint AWS ruleset | 0.49.0 | `.tflint.hcl` |
-| Python | 3.12 or later | `pyproject.toml` (`requires-python`) |
+| Checkov | 3.3.19, run through `uvx` | `Makefile` |
+| Trivy | 0.74.0 | `.github/workflows/ci.yml` (`setup-trivy`) |
+| Docker | Engine or Desktop 29 (the version used for verification) | Not pinned |
 | aws-cdk-lib | 2.271.0 (`>= 2.271, < 3`) | `pyproject.toml`, `uv.lock` |
 | constructs | 10.8.1 | `pyproject.toml`, `uv.lock` |
 | cdk-nag | 3.0.2 | `pyproject.toml`, `uv.lock` |
@@ -46,16 +51,16 @@ fails its grader.
 
 | Job | What it does |
 | --- | --- |
-| `labs` | On `ubuntu-24.04`: installs uv, Node.js 24, Terraform 1.14.5 and hadolint 2.15.1, then runs `make setup lint labs docs-check` |
+| `verify` | On `ubuntu-24.04`: installs uv, Node.js 24, Terraform 1.14.5, hadolint 2.15.1, tflint 0.61.0 and Trivy 0.74.0, then runs `make verify` |
 | `lint-docs` | Reusable workflow `lint-docs.yml`: documentation linting |
 | `lint-actions` | Reusable workflow `lint-actions.yml`: workflow linting |
 | `secrets` | Reusable workflow `secrets.yml`: secret scanning |
 | `security` | Reusable workflow `security.yml` with `checkov-config: .checkov.yaml` and `trivy-skip-dirs: labs/*/starter` |
-| `terraform` | Reusable workflow `terraform.yml` on the four Terraform solution directories with Terraform 1.14.5 |
+| `terraform` | Reusable workflow `terraform.yml` on the four Terraform solution directories with Terraform 1.14.5 and tflint 0.61.0 |
 | `container` | Reusable workflow `container.yml` on the lab 05 solution, image name `harbor-catalog` |
 
 The reusable workflows live in `gamaware/.github`, pinned by commit SHA. `.github/workflows/scorecard.yml` runs the
 OpenSSF Scorecard on pushes to `main` and weekly.
 
-`make verify` runs the same `lint`, `labs` and `docs-check` targets as the `labs` job, plus `checkov` and
-`trivy`, which CI runs in the `security` job.
+The `verify` job runs `make verify`, so a local run and CI execute the same targets. The shared `security` workflow
+runs Checkov and Trivy a second time and adds Semgrep.

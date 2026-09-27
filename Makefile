@@ -11,6 +11,7 @@ SHELL := /usr/bin/env bash
 LAB ?=
 TARGET ?= starter
 UV := uv run --frozen --quiet
+CHECKOV := uvx --quiet checkov==3.3.19
 TF_DIRS := $(sort $(dir $(wildcard labs/*/*/*/versions.tf labs/*/*/*/*/versions.tf)))
 export TF_PLUGIN_CACHE_DIR := $(CURDIR)/.cache/terraform-plugins
 export JSII_SILENCE_WARNING_UNTESTED_NODE_VERSION := 1
@@ -24,7 +25,7 @@ setup: ## Install the locked Python environment (aws-cdk-lib, cdk-nag, pytest, a
 	uv sync --frozen
 
 verify: setup lint tflint labs docs-check checkov trivy ## Run every offline check (what CI runs)
-	@echo "make verify: all checks passed"
+	@echo "verify: all checks passed"
 
 lint: ## ruff, terraform fmt and shellcheck
 	$(UV) ruff check .
@@ -46,7 +47,7 @@ docs-check: ## Lab structure, required README sections, instructor notes, relati
 	$(UV) python scripts/check_docs.py
 
 checkov: ## Policy checks on the lab solutions (.checkov.yaml); starters are graded, not scanned
-	checkov --config-file .checkov.yaml
+	$(CHECKOV) --config-file .checkov.yaml
 
 trivy: ## Trivy misconfiguration and secret scan; starters are graded, not scanned
 	trivy fs --quiet --scanners misconfig,secret --exit-code 1 --severity HIGH,CRITICAL \

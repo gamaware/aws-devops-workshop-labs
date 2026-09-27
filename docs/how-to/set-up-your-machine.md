@@ -9,8 +9,8 @@ need no AWS account for any lab.
 | --- | --- | --- |
 | git | any recent | cloning, `make reset` |
 | GNU make | any recent | every `make` target |
-| uv | any recent | the locked Python environment (labs 03 to 05, linters) |
-| Python 3 | 3.12 or later | lab 05 grader; uv installs its own copy for the rest |
+| uv | 0.12 or later | the locked Python environment (labs 03 to 05, linters) and Checkov |
+| Python 3 | 3.12 or later | lab 05 grader; uv installs Python 3.13 for the rest |
 | Terraform | 1.11 or later, CI uses 1.14.5 | labs 01 and 02 |
 | Node.js | 22 or 24 | the jsii runtime behind `aws-cdk-lib` in lab 03 |
 | Docker | Engine or Desktop, running | lab 05 |
@@ -24,9 +24,9 @@ need no AWS account for any lab.
 | AWS CLI v2 | Only for the optional live steps in [use a sandbox account](use-a-sandbox-account.md) |
 | AWS CDK CLI | Only to deploy lab 03; run it through `npx aws-cdk@2`, no global install needed |
 | shellcheck | `make lint` and `make verify` |
-| checkov | `make checkov` and `make verify` |
-| trivy | `make trivy` and `make verify` |
-| tflint | The pre-commit hooks, with the AWS ruleset from `.tflint.hcl` |
+| checkov | `make checkov` and `make verify`; uv runs the pinned 3.3.19, no install needed |
+| trivy | `make trivy` and `make verify` (CI uses 0.74.0) |
+| tflint | `make tflint`, `make verify` and the pre-commit hooks, with the AWS ruleset from `.tflint.hcl` (CI uses 0.61.0) |
 
 ## Install on macOS
 
@@ -42,7 +42,7 @@ brew install --cask docker
 Start Docker Desktop once so the daemon runs. For the optional tools:
 
 ```bash
-brew install awscli shellcheck checkov trivy tflint
+brew install awscli shellcheck trivy tflint
 ```
 
 ## Install on Linux

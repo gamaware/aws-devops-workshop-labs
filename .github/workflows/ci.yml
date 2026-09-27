@@ -1,9 +1,9 @@
 name: ci
 
-# Pull requests and main run the same checks as `make verify`, with no cloud access at
-# all: no id-token permission, no secrets, no role to assume. Shared checks come from
-# reusable workflows in gamaware/.github; the labs job calls the Makefile, so local runs
-# and CI cannot drift apart. Starters are graded (they must fail), not scanned (ADR 0003).
+# Pull requests and main run `make verify`, the same command as a local run, with no cloud
+# access at all: no id-token permission, no secrets, no role to assume. Shared checks come
+# from reusable workflows in gamaware/.github. Starters are graded (they must fail), not
+# scanned (ADR 0003).
 on:
   pull_request:
   push:
@@ -16,10 +16,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  labs:
-    name: Labs (solutions pass, starters fail)
+  verify:
+    name: make verify
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 30
     permissions:
       contents: read
     env:
@@ -54,9 +54,16 @@ jobs:
           chmod +x "$RUNNER_TEMP/bin/hadolint"
           echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
 
-      # Checkov and Trivy run in the shared security workflow with the same configuration.
-      - name: Lint, grade every lab, check the docs
-        run: make setup lint labs docs-check
+      - uses: terraform-linters/setup-tflint@1cf010d3c7aef302051ccdb68c14c5dc2efa34ef # v6.3.1
+        with:
+          tflint_version: v0.61.0
+
+      - uses: aquasecurity/setup-trivy@81e514348e19b6112ce2a7e3ecbafe19c1e1f567 # v0.3.1
+        with:
+          version: v0.74.0
+
+      - name: Lint, grade every lab, check the docs, scan the solutions
+        run: make verify
 
   lint-docs:
     name: Lint docs
@@ -97,6 +104,7 @@ jobs:
         "labs/02-terraform-module-testing/solution/modules/queue",
         "labs/02-terraform-module-testing/solution/examples/basic"]
       terraform-version: 1.14.5
+      tflint-version: v0.61.0
 
   container:
     name: Container
