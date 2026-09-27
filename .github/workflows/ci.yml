@@ -1,0 +1,109 @@
+name: ci
+
+# Pull requests and main run the same checks as `make verify`, with no cloud access at
+# all: no id-token permission, no secrets, no role to assume. Shared checks come from
+# reusable workflows in gamaware/.github; the labs job calls the Makefile, so local runs
+# and CI cannot drift apart. Starters are graded (they must fail), not scanned (ADR 0003).
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions: {}
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  labs:
+    name: Labs (solutions pass, starters fail)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    env:
+      HADOLINT_VERSION: "2.15.1"
+      HADOLINT_SHA256: c7187db94eeeeca956519a6af171adc31453941a1e777961f6e680f697c8c507
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          enable-cache: false
+
+      # aws-cdk-lib runs on Node.js through jsii.
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "24"
+
+      - uses: hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e # v4.0.1
+        with:
+          terraform_version: 1.14.5
+          terraform_wrapper: false
+
+      - name: Install hadolint
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/bin"
+          curl -fsSL -o "$RUNNER_TEMP/bin/hadolint" \
+            "https://github.com/hadolint/hadolint/releases/download/v${HADOLINT_VERSION}/hadolint-linux-x86_64"
+          echo "${HADOLINT_SHA256}  $RUNNER_TEMP/bin/hadolint" | sha256sum --check --strict
+          chmod +x "$RUNNER_TEMP/bin/hadolint"
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+
+      # Checkov and Trivy run in the shared security workflow with the same configuration.
+      - name: Lint, grade every lab, check the docs
+        run: make setup lint labs docs-check
+
+  lint-docs:
+    name: Lint docs
+    permissions:
+      contents: read
+    uses: gamaware/.github/.github/workflows/lint-docs.yml@1255caafb08b06cc4658318c4dd48f9dea946c9e
+
+  lint-actions:
+    name: Lint workflows
+    permissions:
+      contents: read
+    uses: gamaware/.github/.github/workflows/lint-actions.yml@1255caafb08b06cc4658318c4dd48f9dea946c9e
+
+  secrets:
+    name: Secret scan
+    permissions:
+      contents: read
+    uses: gamaware/.github/.github/workflows/secrets.yml@1255caafb08b06cc4658318c4dd48f9dea946c9e
+
+  security:
+    name: Security
+    permissions:
+      contents: read
+    uses: gamaware/.github/.github/workflows/security.yml@1255caafb08b06cc4658318c4dd48f9dea946c9e
+    with:
+      checkov-config: .checkov.yaml
+      trivy-skip-dirs: labs/*/starter
+
+  terraform:
+    name: Terraform
+    permissions:
+      contents: read
+    uses: gamaware/.github/.github/workflows/terraform.yml@1255caafb08b06cc4658318c4dd48f9dea946c9e
+    with:
+      working-directories: >-
+        ["labs/01-terraform-remote-state/solution/bootstrap",
+        "labs/01-terraform-remote-state/solution/app",
+        "labs/02-terraform-module-testing/solution/modules/queue",
+        "labs/02-terraform-module-testing/solution/examples/basic"]
+      terraform-version: 1.14.5
+
+  container:
+    name: Container
+    permissions:
+      contents: read
+    uses: gamaware/.github/.github/workflows/container.yml@1255caafb08b06cc4658318c4dd48f9dea946c9e
+    with:
+      context: labs/05-containers-to-ecs/solution
+      dockerfile: labs/05-containers-to-ecs/solution/Dockerfile
+      image-name: harbor-catalog
