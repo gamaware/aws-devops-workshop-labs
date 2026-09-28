@@ -117,15 +117,15 @@ account, delete the `CDKToolkit` stack and then empty and delete its `cdk-*-asse
 ## Lab 04: GitHub Actions with OIDC
 
 The lab files use the example account `111122223333`, the repository `harbor-goods/storefront` and the bucket
-`harbor-goods-storefront-site`. Replace them with your own values in your copy, never in this repository.
+`harbor-goods-storefront-static`. Replace them with your own values in your copy, never in this repository.
 
-1. Create a GitHub repository you own. Copy `site/` to its root and `workflows/deploy.yml` to
+1. Create a GitHub repository you own. Copy `static/` to its root and `workflows/deploy.yml` to
    `.github/workflows/deploy.yml`.
 2. In the repository settings, create an environment named `production`.
-3. Create the site bucket with a globally unique name:
+3. Create the static assets bucket with a globally unique name:
 
    ```bash
-   aws s3 mb s3://YOUR_SITE_BUCKET --region us-east-1
+   aws s3 mb s3://YOUR_STATIC_BUCKET --region us-east-1
    ```
 
 4. Create the GitHub OIDC provider, once per account:
@@ -148,18 +148,18 @@ The lab files use the example account `111122223333`, the repository `harbor-goo
 
    ```bash
    aws iam put-role-policy --role-name harbor-storefront-deploy \
-     --policy-name deploy-site --policy-document file://iam/deploy-policy.json
+     --policy-name deploy-static --policy-document file://iam/deploy-policy.json
    ```
 
 7. In `.github/workflows/deploy.yml`, set `role-to-assume` to your role ARN and `BUCKET` to your bucket. Push to
-   `main` and watch the `deploy` job assume the role and sync the site.
+   `main` and watch the `deploy` job assume the role and sync the static assets.
 
 Clean up:
 
 ```bash
-aws iam delete-role-policy --role-name harbor-storefront-deploy --policy-name deploy-site
+aws iam delete-role-policy --role-name harbor-storefront-deploy --policy-name deploy-static
 aws iam delete-role --role-name harbor-storefront-deploy
-aws s3 rb s3://YOUR_SITE_BUCKET --force
+aws s3 rb s3://YOUR_STATIC_BUCKET --force
 ```
 
 Delete the OIDC provider too if nothing else uses it (`aws iam list-open-id-connect-providers` shows its ARN,

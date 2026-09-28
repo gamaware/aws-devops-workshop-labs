@@ -27,9 +27,10 @@ Allow 80 minutes.
 
 ## Scenario
 
-Harbor Goods hosts its static storefront in S3. The deployment workflow stores an IAM user's access key in repository
-secrets, executes on every push and pull request, and grants `s3:*` across all buckets. Anyone able to open a pull
-request can edit the workflow and read that key. A teammate's proposed OIDC trust policy accepts `repo:harbor-goods/*`.
+Harbor Goods publishes the storefront's static assets to S3, such as the maintenance page shown while the store is
+being updated. The deployment workflow stores an IAM user's access key in repository secrets, executes on every push
+and pull request, and grants `s3:*` across all buckets. Anyone able to open a pull request can edit the workflow and
+read that key. A teammate's proposed OIDC trust policy accepts `repo:harbor-goods/*`.
 
 | Path | Purpose |
 | --- | --- |
@@ -80,7 +81,7 @@ Use `starter/` for your changes. In `deploy.yml`, numbered `Exercise` comments c
    dry run; all cases should now produce their expected results.
 
 7. **Limit deployment access** (`iam/deploy-policy.json`). Grant `s3:ListBucket` for
-   `arn:aws:s3:::harbor-goods-storefront-site`, with `s3:PutObject` and `s3:DeleteObject` restricted to its objects
+   `arn:aws:s3:::harbor-goods-storefront-static`, with `s3:PutObject` and `s3:DeleteObject` restricted to its objects
    (`/*`). These permissions cover everything `aws s3 sync --delete` requires.
 
 8. Repeat grading until `PASS` appears on every line:
@@ -111,7 +112,7 @@ and find the checks in [`tests/test_grader.py`](tests/test_grader.py).
 ## Reset
 
 Unless you completed the optional step, nothing runs in AWS or GitHub. If you completed it, remove the role, identity
-provider and site bucket before restoring the starter files:
+provider and static assets bucket before restoring the starter files:
 
 ```bash
 make reset LAB=04

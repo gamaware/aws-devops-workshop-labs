@@ -53,7 +53,7 @@ What they prove:
   deploy job.
 - The trust policy admits the `push-main-production` claims and rejects pull requests, feature branches, other
   repositories, the staging environment and a wrong audience.
-- The deploy policy stays on the site bucket.
+- The deploy policy stays on the static assets bucket.
 
 What they cannot prove:
 

@@ -62,7 +62,7 @@ the two IAM policies. The table splits each exercise into tasks and maps them to
 | 4 | Pin every action to a 40-character commit SHA | `workflows/deploy.yml` | `test_every_action_is_pinned_to_a_commit_sha` |
 | 4 | `persist-credentials: false` on every checkout | `workflows/deploy.yml` | `test_checkout_does_not_keep_the_github_token` |
 | 5 | Trust only production deploys of `harbor-goods/storefront`, audience `sts.amazonaws.com` | `iam/trust-policy.json` | `test_trust_policy_admits_only_production_deploys_from_main`, `test_trust_policy_matches_the_subject_exactly` |
-| 5 | Limit the deploy policy to the site bucket | `iam/deploy-policy.json` | `test_deploy_policy_is_limited_to_the_site_bucket` |
+| 5 | Limit the deploy policy to the static assets bucket | `iam/deploy-policy.json` | `test_deploy_policy_is_limited_to_the_static_assets_bucket` |
 
 Exercise 4 needs commit SHAs, which need network access to look up. If the network blocks GitHub, give participants
 the pins from the solution workflow.
@@ -91,7 +91,7 @@ job with `environment: production` gets the environment subject, so IAM denies t
 `push-main-production: expected allow, got deny`.
 
 **`s3:*` or a wildcard resource.** The grader allows only `s3:ListBucket`, `s3:PutObject` and `s3:DeleteObject`,
-which the solution grants, plus an optional `s3:GetObject`, on `arn:aws:s3:::harbor-goods-storefront-site` and its
+which the solution grants, plus an optional `s3:GetObject`, on `arn:aws:s3:::harbor-goods-storefront-static` and its
 objects:
 `unexpected actions: ['s3:*']`.
 
@@ -140,7 +140,7 @@ Optional, in a sandbox account and a personal GitHub repository only (see
    `repo:YOUR_GITHUB_USER/YOUR_REPO:environment:production`. Create the role with it and attach the deploy
    policy as an inline policy.
 4. In the GitHub repository, create an environment named `production`. Copy the solution workflow to
-   `.github/workflows/deploy.yml`, the `site/` directory to the repository root, and set `role-to-assume` and the
+   `.github/workflows/deploy.yml`, the `static/` directory to the repository root, and set `role-to-assume` and the
    bucket name.
 5. Push to `main`, watch the run, and open the role's CloudTrail `AssumeRoleWithWebIdentity` event. Then open a
    pull request and show that GitHub skips the deploy job.
@@ -148,7 +148,7 @@ Optional, in a sandbox account and a personal GitHub repository only (see
 Cleanup:
 
 ```bash
-aws s3 rm "s3://YOUR_SITE_BUCKET" --recursive && aws s3 rb "s3://YOUR_SITE_BUCKET"
+aws s3 rm "s3://YOUR_STATIC_BUCKET" --recursive && aws s3 rb "s3://YOUR_STATIC_BUCKET"
 aws iam delete-role-policy --role-name harbor-storefront-deploy --policy-name deploy
 aws iam delete-role --role-name harbor-storefront-deploy
 ```

@@ -1,6 +1,7 @@
 # GitHub OIDC federation to AWS
 
-Lab 04 deploys the Harbor Goods storefront from GitHub Actions to S3 without an AWS access key stored anywhere.
+Lab 04 publishes the Harbor Goods storefront's static assets from GitHub Actions to S3 without an AWS access key
+stored anywhere.
 This page explains the exchange that makes that possible and the choices in the lab's trust policy.
 
 ![Deploy job trades a GitHub OIDC token for short-lived STS credentials to sync an S3 bucket](../diagrams/03-oidc-flow.svg)
@@ -14,7 +15,7 @@ This page explains the exchange that makes that possible and the choices in the 
 3. STS checks the signature against the IAM OIDC identity provider registered in the account, then evaluates the
    role's trust policy against the token's claims.
 4. If the trust policy allows it, STS returns credentials that expire, by default after one hour. The job
-   runs `aws s3 sync`; the role's permission policy limits it to the site bucket.
+   runs `aws s3 sync`; the role's permission policy limits it to the static assets bucket.
 
 No secret crosses the boundary. A leaked token is useless after a few minutes and only for the role it names, and
 nothing needs rotating.

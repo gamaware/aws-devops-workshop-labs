@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   validate:
-    name: Validate the site
+    name: Validate the static assets
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
@@ -26,8 +26,8 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Check that the home page exists
-        run: test -s site/index.html
+      - name: Check that the maintenance page exists
+        run: test -s static/maintenance.html
 
   deploy:
     name: Deploy to S3
@@ -53,7 +53,7 @@ jobs:
           role-session-name: storefront-${{ github.run_id }}
           aws-region: us-east-1
 
-      - name: Upload the site
+      - name: Upload the static assets
         env:
-          BUCKET: harbor-goods-storefront-site
-        run: aws s3 sync site/ "s3://$BUCKET" --delete
+          BUCKET: harbor-goods-storefront-static
+        run: aws s3 sync static/ "s3://$BUCKET" --delete

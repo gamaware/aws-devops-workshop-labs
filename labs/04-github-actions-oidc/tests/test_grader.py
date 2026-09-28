@@ -15,7 +15,7 @@ from oidc_dry_run import DEFAULT_CLAIMS, run
 
 TARGET = Path(os.environ["LAB_TARGET"])
 SHA_PIN = re.compile(r"^[\w.-]+/[\w.-]+(/[\w./-]+)?@[0-9a-f]{40}$")
-BUCKET_ARN = "arn:aws:s3:::harbor-goods-storefront-site"
+BUCKET_ARN = "arn:aws:s3:::harbor-goods-storefront-static"
 PRODUCTION_SUBJECT = "repo:harbor-goods/storefront:environment:production"
 ALLOWED_ACTIONS = {"s3:ListBucket", "s3:GetObject", "s3:PutObject", "s3:DeleteObject"}
 
@@ -110,11 +110,11 @@ def test_trust_policy_matches_the_subject_exactly() -> None:
         assert subjects == [PRODUCTION_SUBJECT], f"every statement must admit only {PRODUCTION_SUBJECT}"
 
 
-def test_deploy_policy_is_limited_to_the_site_bucket() -> None:
+def test_deploy_policy_is_limited_to_the_static_assets_bucket() -> None:
     policy = json.loads((TARGET / "iam" / "deploy-policy.json").read_text())
     for statement in as_list(policy["Statement"]):
         assert statement["Effect"] == "Allow"
         actions = set(as_list(statement["Action"]))
         assert actions <= ALLOWED_ACTIONS, f"unexpected actions: {sorted(actions - ALLOWED_ACTIONS)}"
         for resource in as_list(statement["Resource"]):
-            assert resource in (BUCKET_ARN, f"{BUCKET_ARN}/*"), f"resource outside the site bucket: {resource}"
+            assert resource in (BUCKET_ARN, f"{BUCKET_ARN}/*"), f"resource outside the static assets bucket: {resource}"
