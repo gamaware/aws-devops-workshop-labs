@@ -23,6 +23,8 @@ dev = [
 ]
 
 [tool.uv]
+exclude-newer = "7 days"
+exclude-newer-package = { actionlint-py = false, ruff = false, aws-cdk-lib = false }
 default-groups = ["labs", "dev"]
 package = false
 

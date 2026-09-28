@@ -2,6 +2,15 @@ version = 1
 revision = 3
 requires-python = ">=3.12"
 
+[options]
+exclude-newer = "0001-01-01T00:00:00Z" # This has no effect and is included for backwards compatibility when using relative exclude-newer values.
+exclude-newer-span = "P7D"
+
+[options.exclude-newer-package]
+actionlint-py = false
+aws-cdk-lib = false
+ruff = false
+
 [[package]]
 name = "actionlint-py"
 version = "1.7.12.25"
@@ -45,15 +54,15 @@ wheels = [
 
 [[package]]
 name = "aws-cdk-cloud-assembly-schema"
-version = "54.25.0"
+version = "54.24.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "jsii" },
     { name = "publication" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/27/e4/ac96afc56db463f8e59aba004e13340546394323e1a1cef8700dfbf38679/aws_cdk_cloud_assembly_schema-54.25.0.tar.gz", hash = "sha256:8f5fd25506a465132fe805fec480fcdfaaf3170d51179e807a0a86dd68ad6dc0", size = 283126, upload-time = "2026-09-23T15:37:00.18Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f0/b1/2a143a3d00205ecc7c71fa5240aa4c8fdbd5db347fab81d648ca6c763b74/aws_cdk_cloud_assembly_schema-54.24.0.tar.gz", hash = "sha256:8461b9aa1f8ddb0c8b457536010de0c5891368a183a993ede58e2c705c6635d7", size = 283128, upload-time = "2026-09-16T19:39:01.812Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/be/f7/06d2413ba7729e34eb2c16aa084dd85b5840d96a9e5cb63428afdd471d5c/aws_cdk_cloud_assembly_schema-54.25.0-py3-none-any.whl", hash = "sha256:d89dccbc1f1f429d37691f08015fc1b58e3719ee1314cba14a7b2fcb03297eca", size = 282205, upload-time = "2026-09-23T15:36:58.358Z" },
+    { url = "https://files.pythonhosted.org/packages/c9/64/ad4a318fa2e6320862f0ff6e0809e7d7628c0f8540fc4cf756267569791d/aws_cdk_cloud_assembly_schema-54.24.0-py3-none-any.whl", hash = "sha256:67b79e635e2c670f988f2aae9bc4b4c63af1fc03138cc28631e6c18c31cbb68e", size = 282201, upload-time = "2026-09-16T19:38:59.779Z" },
 ]
 
 [[package]]
@@ -108,15 +117,15 @@ labs = [
 
 [[package]]
 name = "cattrs"
-version = "26.2.1"
+version = "26.2.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "attrs" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/23/75/e72b839c3dc869c990b4842f3dba730bdcdf5215f68fc7955edf849a1792/cattrs-26.2.1.tar.gz", hash = "sha256:679132bfdc225c5ee40c024fc42519954767c387f950dc6751946c586bccdc6d", size = 525617, upload-time = "2026-09-26T20:53:21.114Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d6/b2/42f4524e5479b090040b5fd8bb316dd8c65a079bb6492494ce2079dc91be/cattrs-26.2.0.tar.gz", hash = "sha256:3cf49f69df8326bcf17a3cb3d3d3ec4a856858fe3a7473746c9044c317d3ba55", size = 524993, upload-time = "2026-09-06T20:31:58.055Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e8/cf/22794a399d99480486120e26e879ef008e21f5e85274c2ed591d568bb326/cattrs-26.2.1-py3-none-any.whl", hash = "sha256:a12aaa3453dc8f633a815293179f08b7421ed18d2575c459c3c736f840beac24", size = 74843, upload-time = "2026-09-26T20:53:19.767Z" },
+    { url = "https://files.pythonhosted.org/packages/f5/4d/6b8460462012a52075ba97932197f8c141be71b8e5f7e918af08ee73424b/cattrs-26.2.0-py3-none-any.whl", hash = "sha256:c680f17cd1df3a1c038ad1db8d90a9c595568cc54c4e8098e7ceb8d7b9bd826b", size = 74830, upload-time = "2026-09-06T20:31:56.327Z" },
 ]
 
 [[package]]
