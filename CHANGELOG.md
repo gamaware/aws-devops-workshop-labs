@@ -23,6 +23,14 @@ This file records all notable changes to this project. The format follows
 - CI (`make` targets plus the shared gamaware/.github workflows), Dependabot and OpenSSF Scorecard.
 - `make test-live`: a manual end-to-end test of the Terraform solutions against the maintainer's account.
 
+### Changed
+
+- Lab 04 publishes the storefront's static assets (a maintenance page) to the `harbor-goods-storefront-static`
+  bucket; the storefront itself runs on ECS Fargate, as in the other Harbor Goods samples.
+- `scripts/verify-labs.sh` compares each starter's failures with `tests/starter-failures.txt`.
+- CI caller jobs use the shared check names (`verify`, `lint-docs`, `lint-actions`, `secrets`, `security`,
+  `terraform`, `container`).
+
 ### Security
 
 - CI calls the shared reusable workflows from `gamaware/.github` pinned to a full commit SHA.
