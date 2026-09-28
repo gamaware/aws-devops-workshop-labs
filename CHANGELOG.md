@@ -27,7 +27,14 @@ This file records all notable changes to this project. The format follows
 
 - Lab 04 publishes the storefront's static assets (a maintenance page) to the `harbor-goods-storefront-static`
   bucket; the storefront itself runs on ECS Fargate, as in the other Harbor Goods samples.
-- `scripts/verify-labs.sh` compares each starter's failures with `tests/starter-failures.txt`.
+- `scripts/verify-labs.sh` compares each starter's failures with `tests/starter-failures.txt`, read from the
+  grader's full report (`GRADER_REPORT`) rather than its shortened console output.
+
+### Fixed
+
+- Graders treat a missing or crashing tool, a pytest collection error or a skipped test as a hard error (exit 2)
+  instead of a failed objective.
+- `make setup` creates the Terraform provider cache directory, so `terraform fmt` in CI no longer warns about it.
 - CI caller jobs use the shared check names (`verify`, `lint-docs`, `lint-actions`, `secrets`, `security`,
   `terraform`, `container`).
 

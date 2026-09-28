@@ -32,7 +32,9 @@ for lab in "${labs[@]}"; do
   solution_code=0
   starter_code=0
   "$grader" "$REPO_ROOT/labs/$lab/solution" > "$LOG_DIR/$lab-solution.log" 2>&1 || solution_code=$?
-  "$grader" "$REPO_ROOT/labs/$lab/starter" > "$LOG_DIR/$lab-starter.log" 2>&1 || starter_code=$?
+  : > "$LOG_DIR/$lab-report.txt"
+  GRADER_REPORT="$LOG_DIR/$lab-report.txt" "$grader" "$REPO_ROOT/labs/$lab/starter" > "$LOG_DIR/$lab-starter.log" 2>&1 \
+    || starter_code=$?
 
   verdict="ok"
   if [ "$solution_code" -ne 0 ]; then
@@ -45,7 +47,9 @@ for lab in "${labs[@]}"; do
     cat "$LOG_DIR/$lab-starter.log"
   else
     expected="$REPO_ROOT/labs/$lab/tests/starter-failures.txt"
-    grep -oE '^FAIL   .*|FAILED [^ ]+' "$LOG_DIR/$lab-starter.log" | LC_ALL=C sort > "$LOG_DIR/$lab-failures.txt" || true
+    # The grader's report holds every failed objective with its full output; the console log
+    # is shortened, so parsing it would depend on terminal width and path lengths.
+    grep -oE '^FAIL   .*|^FAILED [^ ]+' "$LOG_DIR/$lab-report.txt" | LC_ALL=C sort -u > "$LOG_DIR/$lab-failures.txt" || true
     if [ ! -f "$expected" ]; then
       verdict="missing tests/starter-failures.txt"
     elif ! diff -u "$expected" "$LOG_DIR/$lab-failures.txt"; then

@@ -24,6 +24,7 @@ help: ## List targets
 
 setup: ## Install the locked Python environment (aws-cdk-lib, cdk-nag, pytest, actionlint, zizmor, ruff)
 	uv sync --frozen
+	mkdir -p $(TF_PLUGIN_CACHE_DIR)
 
 verify: setup lint tflint labs docs-check checkov trivy ## Run every offline check (the CI verify job)
 	@echo "verify: all checks passed"

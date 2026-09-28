@@ -10,6 +10,8 @@ TARGET="$(resolve_target "$@")"
 require_tool uv node
 
 cp -R "$TARGET/." "$GRADER_WORK/"
+# The grader tests read the copied target from LAB_TARGET.
+export LAB_TARGET="$GRADER_WORK"
 rm -rf "$GRADER_WORK/cdk.out"
 
 # py: run Python from the repository's locked environment (aws-cdk-lib, cdk-nag, pytest).
@@ -36,11 +38,10 @@ from harbor_assets.storage_stack import AssetsStack
 app = App(); AssetsStack(app, 'Probe'); app.synth()"
 
 check "own tests: the participant's assertion tests pass" \
-  py pytest -q -p no:cacheprovider --tb=line "$GRADER_WORK/tests"
+  pytest_run "$GRADER_WORK/tests"
 check "own tests: 3 or more assertion tests" \
   own_suite_is_substantial
 check "cdk-nag passes and the template keeps data private, encrypted and retained" \
-  env LAB_TARGET="$GRADER_WORK" uv run --project "$REPO_ROOT" --frozen --quiet \
-  pytest -q -p no:cacheprovider --tb=line "$TESTS/test_grader.py"
+  pytest_run "$TESTS/test_grader.py"
 
 finish

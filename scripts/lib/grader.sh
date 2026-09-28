@@ -5,9 +5,15 @@
 #   0  every objective is met
 #   1  the target is valid but at least one objective is not met (the expected state of a starter)
 #   2  the target is broken or a tool is missing (it cannot even be graded)
+#
+# A tool that is missing or crashes inside a check is a hard error (exit 2), never a failed
+# or skipped objective: see HARD_ERROR, pytest_run and zizmor_run below.
+# GRADER_REPORT: optional file path. Each failed objective and its full, untruncated output
+# go there; scripts/verify-labs.sh reads it instead of the shortened console output.
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 GRADER_FAILURES=0
+HARD_ERROR=99
 GRADER_LOG="$(mktemp)"
 GRADER_WORK="$(mktemp -d)"
 trap 'rm -rf "$GRADER_LOG" "$GRADER_WORK"' EXIT
@@ -53,16 +59,64 @@ setup() {
 }
 
 # check DESCRIPTION COMMAND...: one objective. Failures are counted and reported at the end.
+# A command that exits with HARD_ERROR could not grade at all: the grader stops with exit 2.
 check() {
-  local description="$1"
+  local description="$1" code=0
   shift
-  if "$@" > "$GRADER_LOG" 2>&1; then
+  "$@" > "$GRADER_LOG" 2>&1 || code=$?
+  if [ "$code" -eq 0 ]; then
     echo "PASS   $description"
-  else
-    echo "FAIL   $description"
-    sed 's/^/       /' "$GRADER_LOG" | tail -n 40
-    GRADER_FAILURES=$((GRADER_FAILURES + 1))
+    return
   fi
+  # 126 and 127: the shell could not run the command at all.
+  if [ "$code" -eq "$HARD_ERROR" ] || [ "$code" -eq 126 ] || [ "$code" -eq 127 ]; then
+    echo "BROKEN $description (a tool is missing or crashed)"
+    sed 's/^/       /' "$GRADER_LOG" | tail -n 40
+    exit 2
+  fi
+  echo "FAIL   $description"
+  sed 's/^/       /' "$GRADER_LOG" | tail -n 40
+  if [ "${GRADER_REPORT:-}" != "" ]; then
+    echo "FAIL   $description" >> "$GRADER_REPORT"
+    cat "$GRADER_LOG" >> "$GRADER_REPORT"
+  fi
+  GRADER_FAILURES=$((GRADER_FAILURES + 1))
+}
+
+# pytest_run ARGS...: run pytest from the locked environment. Exit 0 when every test passes and
+# 1 when tests fail. Anything else (pytest or a module missing, collection or usage errors, no
+# tests collected, skipped tests) returns HARD_ERROR, so a broken environment never looks like
+# a graded answer.
+pytest_run() {
+  local code=0 output
+  output="$(mktemp)"
+  uv run --project "$REPO_ROOT" --frozen --quiet pytest -q -p no:cacheprovider --tb=line -rfEs "$@" > "$output" 2>&1 \
+    || code=$?
+  cat "$output"
+  if [ "$code" -gt 1 ]; then
+    echo "pytest exited with $code: environment or collection error, not a graded result"
+    code="$HARD_ERROR"
+  elif grep -Eq '^SKIPPED|[0-9]+ skipped' "$output"; then
+    echo "pytest skipped tests: every grader test must run"
+    code="$HARD_ERROR"
+  fi
+  rm -f "$output"
+  return "$code"
+}
+
+# zizmor_run ARGS...: zizmor from the locked environment. Exit codes 10 to 14 mean findings
+# (return 1); 0 means clean; anything else is a tool error (HARD_ERROR).
+zizmor_run() {
+  local code=0
+  uv run --project "$REPO_ROOT" --frozen --quiet zizmor "$@" || code=$?
+  case "$code" in
+    0) return 0 ;;
+    1[0-4]) return 1 ;;
+    *)
+      echo "zizmor exited with $code: tool error, not a graded result"
+      return "$HARD_ERROR"
+      ;;
+  esac
 }
 
 # tf_test DIR TESTS_DIR: run the grader's .tftest.hcl files from TESTS_DIR against the configuration in DIR.

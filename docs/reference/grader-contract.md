@@ -14,11 +14,18 @@ labs/01-terraform-remote-state/tests/run.sh labs/01-terraform-remote-state/start
 | --- | --- | --- |
 | 0 | The target meets every objective | The solution |
 | 1 | The target is valid, but at least one objective is not met | The untouched starter |
-| 2 | The target does not initialize or a tool is missing: the grader cannot run | Nothing |
+| 2 | The target does not initialize, or a tool is missing or crashes: the grader cannot run | Nothing |
 
 `scripts/verify-labs.sh` relies on these codes: it fails the build unless each solution exits 0 and each starter
 exits 1. It also collects the starter's `FAIL` lines and the `FAILED` test IDs that pytest prints, and fails the build
-when they differ from `tests/starter-failures.txt`, one entry per line in `LC_ALL=C` sort order.
+when they differ from `tests/starter-failures.txt`, one entry per line in `LC_ALL=C` sort order. It reads them from the
+file named by `GRADER_REPORT`, where `check` writes each failed objective with its full output. The console shows
+only the last 40 lines of each failure, so parsing it would depend on terminal width and path lengths.
+
+A missing or crashing tool never counts as a failed objective. `check` exits 2 when its command cannot run (exit
+126 or 127) or returns `HARD_ERROR`. `pytest_run` returns `HARD_ERROR` on any pytest exit code above 1 (import,
+collection or usage errors, no tests collected) and on skipped tests. `zizmor_run` does the same for any exit code
+other than 0 or a finding code (10 to 14).
 
 ## Output lines
 
@@ -27,7 +34,8 @@ when they differ from `tests/starter-failures.txt`, one entry per line in `LC_AL
 | `ok` | `setup` passed | None |
 | `BROKEN` | `setup` failed | Prints the last 40 log lines and exits 2 at once |
 | `PASS` | `check` passed | None |
-| `FAIL` | `check` failed | Prints the last 40 log lines and counts one failure; grading continues |
+| `FAIL` | `check` failed | Prints the last 40 log lines, writes the full log to `GRADER_REPORT` if set, counts one failure; grading continues |
+| `BROKEN ... (a tool is missing or crashed)` | `check` hit a hard error | Prints the last 40 log lines and exits 2 at once |
 | `SETUP  missing tool:` | `require_tool` | Exits 2 at once |
 | `RESULT` | `finish` | Exits 1 if any `check` failed, else 0 |
 
@@ -41,6 +49,8 @@ when they differ from `tests/starter-failures.txt`, one entry per line in `LC_AL
 | `check DESCRIPTION COMMAND...` | One objective; `finish` counts the failures |
 | `tf_init DIR` | `terraform init -backend=false -input=false`: no backend, no credentials |
 | `tf_test DIR TESTS_DIR` | Copies `TESTS_DIR/*.tftest.hcl` into `DIR/grader/` and runs `terraform test -test-directory=grader` |
+| `pytest_run ARGS...` | pytest from the locked environment; returns `HARD_ERROR` on errors, no tests or skips |
+| `zizmor_run ARGS...` | zizmor from the locked environment; findings return 1, tool errors `HARD_ERROR` |
 | `finish` | Prints `RESULT` and exits with the contract code |
 
 ## Working copy
