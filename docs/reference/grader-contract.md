@@ -17,7 +17,8 @@ labs/01-terraform-remote-state/tests/run.sh labs/01-terraform-remote-state/start
 | 2 | The target does not initialize or a tool is missing: the grader cannot run | Nothing |
 
 `scripts/verify-labs.sh` relies on these codes: it fails the build unless each solution exits 0 and each starter
-exits 1.
+exits 1. It also collects the starter's `FAIL` lines and the `FAILED` test IDs that pytest prints, and fails the build
+when they differ from `tests/starter-failures.txt`, one entry per line in `LC_ALL=C` sort order.
 
 ## Output lines
 

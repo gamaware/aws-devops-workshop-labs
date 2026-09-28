@@ -21,9 +21,11 @@ Scanners skip `labs/*/starter/` by path and scan everything else in full:
 - the hadolint pre-commit hook excludes starters.
 
 The configuration disables no rule globally; one inline skip in a solution carries its reason (see Notes). The
-graders assert the starters' findings instead: `scripts/verify-labs.sh` requires every starter to fail its grader,
-and the graders check the same issues (for example unpinned actions, root users, missing encryption). Linters that
-the starters pass, such as tflint, actionlint and `terraform validate`, still run on them.
+graders check the same issues instead (for example unpinned actions, root users, missing encryption).
+`scripts/verify-labs.sh` checks that each solution passes and each starter fails, and compares the starter's failed
+objectives and grader tests with the list in `labs/NN-*/tests/starter-failures.txt`, so a grader that stops
+detecting a planted issue fails the build. Linters that the starters pass, such as tflint, actionlint and
+`terraform validate`, still run on them.
 
 ## Consequences
 

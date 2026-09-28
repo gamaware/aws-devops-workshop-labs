@@ -1,0 +1,6 @@
+FAIL   app: backend.hcl.example keeps one state key per stack and environment
+FAIL   app: backend.hcl.example turns on S3 native locking
+FAIL   app: backend.hcl.example turns on encryption
+FAIL   app: declares a partial S3 backend
+FAIL   app: environment is validated and parameters are namespaced
+FAIL   bootstrap: state bucket is versioned, encrypted, private and TLS-only

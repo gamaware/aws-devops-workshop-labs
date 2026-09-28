@@ -170,7 +170,8 @@ their CI system. You build the adapted lab from the client's description, never 
 4. Write the lab's `README.md` with the sections the docs check expects (Objectives, Prerequisites, Duration,
    Scenario, Steps, Expected result, Reset), add `instructor/NN-name.md`, and link the lab from the root README.
 5. Run `scripts/verify-labs.sh NN`. It must report `ok`: the solution exits with 0 and the untouched starter
-   exits with 1. A starter that passes asks for no work; the grader cannot grade a starter that exits with 2.
+   exits with 1, failing exactly the checks listed in `tests/starter-failures.txt`. A starter that passes asks for
+   no work; the grader cannot grade a starter that exits with 2.
 6. Run `make docs-check` and do a dry run of the lab yourself, from the starter, with a timer.
 
 Keep the Harbor Goods names in adapted labs unless the client asks otherwise. Their real names, account IDs or

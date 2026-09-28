@@ -48,7 +48,7 @@ laptops; the workshop excludes the company's AWS accounts.
 | --- | --- | --- |
 | Every lab can be completed without AWS credentials | Mocked providers, local synth, offline dry run, local Docker | CI grades every lab with no credentials |
 | Each solution meets every objective | Graders with one exit-code contract (0, 1, 2) | `make labs` |
-| Each untouched starter still needs work | The starter must exit 1: valid, but objectives open | `make labs` |
+| Each untouched starter still needs work | The starter must exit 1 and fail exactly the checks in `tests/starter-failures.txt` | `make labs` |
 | Each lab states objectives, prerequisites, duration, steps, expected result and reset | Fixed README sections | `make docs-check` |
 | Solutions are secure examples | Checkov, Trivy, Semgrep, hadolint, zizmor on the solutions | `make checkov`, `make trivy`, CI |
 | An instructor can run it without the author | Notes per lab, agenda, mentoring template | `make docs-check` (notes exist per lab) |
@@ -92,7 +92,7 @@ less than a minute and outputs a separate line for each lab:
 lab                              solution   starter    verdict
 01-terraform-remote-state        exit 0     exit 1     ok
 ...
-verify-labs: 5 lab(s) ok (solutions pass, starters fail as intended)
+verify-labs: 5 lab(s) ok (solutions pass, starters fail with the expected findings)
 verify: all checks passed
 ```
 
@@ -112,6 +112,7 @@ labs/
     starter/            what participants edit
     solution/           model answer
     tests/run.sh        grader (exit 0 met, 1 not met, 2 broken)
+    tests/starter-failures.txt  the failures the untouched starter must report
 fixtures/oidc-claims/   sample GitHub OIDC token claims for the lab 04 dry run
 instructor/             instructor guide, half-day agenda, notes per lab, mentoring notes template
 docs/

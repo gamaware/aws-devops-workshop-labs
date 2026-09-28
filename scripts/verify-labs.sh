@@ -2,6 +2,9 @@
 # Prove that every lab works as an exercise: the solution meets every objective
 # (grader exit 0) and the untouched starter is valid but incomplete (grader exit 1).
 # A starter that passes, or one the grader cannot even run (exit 2), fails the build.
+# The starter must also fail exactly the objectives and tests listed in
+# labs/NN-*/tests/starter-failures.txt, so a grader that stops detecting a planted
+# finding fails the build too.
 # Usage: scripts/verify-labs.sh [lab-number...]   e.g. scripts/verify-labs.sh 01 04
 set -euo pipefail
 
@@ -40,6 +43,14 @@ for lab in "${labs[@]}"; do
   elif [ "$starter_code" -ne 1 ]; then
     verdict="starter is broken: it cannot be graded"
     cat "$LOG_DIR/$lab-starter.log"
+  else
+    expected="$REPO_ROOT/labs/$lab/tests/starter-failures.txt"
+    grep -oE '^FAIL   .*|FAILED [^ ]+' "$LOG_DIR/$lab-starter.log" | LC_ALL=C sort > "$LOG_DIR/$lab-failures.txt" || true
+    if [ ! -f "$expected" ]; then
+      verdict="missing tests/starter-failures.txt"
+    elif ! diff -u "$expected" "$LOG_DIR/$lab-failures.txt"; then
+      verdict="starter failures differ from tests/starter-failures.txt"
+    fi
   fi
   [ "$verdict" = "ok" ] || failures=$((failures + 1))
   printf '%-32s %-10s %-10s %s\n' "$lab" "exit $solution_code" "exit $starter_code" "$verdict"
@@ -49,4 +60,4 @@ if [ "$failures" -gt 0 ]; then
   echo "verify-labs: $failures lab(s) failed"
   exit 1
 fi
-echo "verify-labs: ${#labs[@]} lab(s) ok (solutions pass, starters fail as intended)"
+echo "verify-labs: ${#labs[@]} lab(s) ok (solutions pass, starters fail with the expected findings)"

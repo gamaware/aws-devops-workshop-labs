@@ -35,6 +35,9 @@ Set the scenario at Harbor Goods, the fictional client of every lab. Use `111122
 - The solution meets every objective. It is the only code that checkov, Trivy and Semgrep scan.
 - The starter parses, initializes and validates, but leaves at least one objective open. The grader must return
   exit 1 on it, never 2.
+- List the starter's expected failures in `tests/starter-failures.txt`: the grader's `FAIL` lines and pytest's
+  `FAILED` test IDs, sorted with `LC_ALL=C sort`. The format is in the
+  [grader contract](../reference/grader-contract.md).
 - For Terraform, commit a `.terraform.lock.hcl` in each root and module directory of both, and pin the provider
   with the same `>= 6.0, < 7.0` constraint as the other labs.
 - Starter-only lint findings belong to the exercise. The scanner configurations already skip `labs/*/starter`.
@@ -102,5 +105,6 @@ scripts/verify-labs.sh NN
 make verify
 ```
 
-`verify-labs.sh` prints `ok` only when the solution exits 0 and the starter exits 1. Any other verdict names the
-problem, for example `solution does not pass` or `starter already passes`.
+`verify-labs.sh` prints `ok` only when the solution exits 0 and the starter exits 1 with exactly the failures in
+`tests/starter-failures.txt`. Any other verdict names the problem, for example `solution does not pass`,
+`starter already passes` or `starter failures differ from tests/starter-failures.txt`.
