@@ -121,7 +121,9 @@ The lab files use the example account `111122223333`, the repository `harbor-goo
 
 1. Create a GitHub repository you own. Copy `static/` to its root and `workflows/deploy.yml` to
    `.github/workflows/deploy.yml`.
-2. In the repository settings, create an environment named `production`.
+2. In the repository settings, create an environment named `production`. Under **Deployment branches and tags**,
+   choose **Selected branches and tags** and add `main`. The subject claim names the environment, not the branch,
+   so this rule is what stops a job on another branch from selecting `production` and assuming the role.
 3. Create the static assets bucket with a globally unique name:
 
    ```bash

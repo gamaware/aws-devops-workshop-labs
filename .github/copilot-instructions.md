@@ -3,7 +3,7 @@
 When reviewing pull requests in this repository:
 
 - Files under `labs/*/starter/` are exercises and are insecure or incomplete on purpose; do not flag their findings.
-- Files under `labs/*/solution/` are model answers: flag any weakening of security, pinning or least privilege.
+- Files under `labs/*/solution/` are model answers: flag any weakening of security, pinning or access scope.
 - A new grader check must pass on the solution and fail on the starter (`scripts/verify-labs.sh`).
 - Tests must use mocked providers or local tools only and must never call AWS.
 - Actions must be pinned by full commit SHA with the version in a comment; workflows start from `permissions: {}`.

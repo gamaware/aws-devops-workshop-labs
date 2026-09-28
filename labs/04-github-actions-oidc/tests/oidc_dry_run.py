@@ -14,8 +14,8 @@ Usage:
 """
 
 import argparse
-import fnmatch
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -29,8 +29,14 @@ def as_list(value: object) -> list:
 
 
 def like(pattern: str, value: str) -> bool:
-    """IAM StringLike: * matches any sequence and ? one character, case-sensitive."""
-    return fnmatch.fnmatchcase(value, pattern)
+    """IAM StringLike: * matches any sequence and ? one character, case-sensitive.
+
+    Every other character is literal. Shell globs (fnmatch) also treat [...] as a character class,
+    which IAM does not, so the pattern is translated to a regular expression by hand.
+    """
+    wildcards = {"*": ".*", "?": "."}
+    regex = "".join(wildcards.get(char, re.escape(char)) for char in pattern)
+    return re.fullmatch(regex, value, flags=re.DOTALL) is not None
 
 
 OPERATORS = {

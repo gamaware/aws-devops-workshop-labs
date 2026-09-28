@@ -37,9 +37,10 @@ The `sub` claim changes shape with the trigger:
 | Push, no environment | `repo:OWNER/REPO:ref:refs/heads/BRANCH` |
 
 When a job declares `environment:`, the environment replaces the branch in `sub`. The lab uses that: the deploy
-job runs in `production`, and only a job in that environment can match the trust policy. GitHub environment
-protection rules, such as required reviewers or a `main`-only branch rule, then gate every token the role
-accepts.
+job runs in `production`, and only a job in that environment can match the trust policy. Because the subject no
+longer names the branch, the `production` environment must carry a `main`-only deployment branch rule; without
+it, a workflow on any branch that selects `production` receives a token the role accepts. Required reviewers and
+wait timers add further gates.
 
 ## StringEquals, not StringLike
 

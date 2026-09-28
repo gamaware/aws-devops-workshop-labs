@@ -11,7 +11,7 @@ reviews:
         README.
     - path: "labs/*/solution/**"
       instructions: >-
-        Solutions are model answers participants copy. Hold them to production standards: least privilege,
+        Solutions are model answers participants copy. Hold them to production standards: tight access,
         encryption, pinned versions and digests, every scanner skip with a reason next to the resource.
     - path: "labs/*/tests/**"
       instructions: >-

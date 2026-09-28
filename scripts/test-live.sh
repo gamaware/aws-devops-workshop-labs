@@ -19,7 +19,8 @@ set -euo pipefail
 PROFILE="dev"
 REGION="${LIVE_REGION:-us-east-1}"
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-RUN_ID="$(date +%s | tail -c 7)"
+# Unix time plus 32 random bits: unique across retries and concurrent runs, and valid in a bucket name.
+RUN_ID="$(date +%s)-$(od -An -N4 -tx1 /dev/urandom | tr -d ' \n')"
 WORK="$(mktemp -d)"
 BUCKET="harbor-labs-tfstate-$RUN_ID"
 TAG_KEY="purpose"
