@@ -1,6 +1,7 @@
-# One entry point for local runs and CI. `make verify` is what CI runs: it proves every
+# One entry point for local runs and CI. CI's verify job runs `make verify`: it proves every
 # solution meets its objectives and every untouched starter still needs work, then lints
-# and scans the repository. Offline: no AWS credentials and no AWS API calls. The first run
+# and scans the repository. The shared workflows in ci.yml add checks it does not run
+# (link check, Vale, Semgrep, gitleaks, the container image build and scan). Offline: no AWS credentials and no AWS API calls. The first run
 # downloads Python packages (uv), Terraform providers, the python base image and the Trivy
 # database; later runs reuse them.
 
@@ -24,7 +25,7 @@ help: ## List targets
 setup: ## Install the locked Python environment (aws-cdk-lib, cdk-nag, pytest, actionlint, zizmor, ruff)
 	uv sync --frozen
 
-verify: setup lint tflint labs docs-check checkov trivy ## Run every offline check (what CI runs)
+verify: setup lint tflint labs docs-check checkov trivy ## Run every offline check (the CI verify job)
 	@echo "verify: all checks passed"
 
 lint: ## ruff, terraform fmt and shellcheck
