@@ -1,0 +1,29 @@
+name: storefront
+
+# Lab 04 starter: the pipeline Harbor Goods runs today. It works, and it is the
+# reason for this lab. It lives outside .github/workflows, so GitHub does not run it.
+#
+# Exercise 1: set `permissions: {}` for the workflow; grant each job only what it needs.
+# Exercise 2: split it into a validate job (every event) and a deploy job that runs only for
+#   pushes to main, needs validate, uses the production environment and has a timeout.
+# Exercise 3: replace the stored keys with OIDC: id-token: write on the deploy job only, and
+#   role-to-assume arn:aws:iam::111122223333:role/harbor-storefront-deploy.
+# Exercise 4: pin every action to a full commit SHA and stop checkout from keeping the token.
+# Exercise 5: tighten ../iam/trust-policy.json and ../iam/deploy-policy.json (see the README).
+on:
+  push:
+  pull_request:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - run: aws s3 sync static/ s3://harbor-goods-storefront-static --delete

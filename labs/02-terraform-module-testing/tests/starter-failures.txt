@@ -1,0 +1,2 @@
+FAIL   module: the own suite has 3+ run blocks, including an expect_failures test
+FAIL   module: validations, dead-letter queue, encryption and outputs meet the contract

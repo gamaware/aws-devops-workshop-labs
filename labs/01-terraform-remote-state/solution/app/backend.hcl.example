@@ -1,0 +1,8 @@
+# Copy to backend.hcl and fill in the bucket from the bootstrap output:
+#   terraform -chdir=../bootstrap output backend_config
+# Then: terraform init -backend-config=backend.hcl
+bucket       = "harbor-goods-tfstate-yourinitials"
+key          = "storefront/dev/terraform.tfstate"
+region       = "us-east-1"
+encrypt      = true
+use_lockfile = true

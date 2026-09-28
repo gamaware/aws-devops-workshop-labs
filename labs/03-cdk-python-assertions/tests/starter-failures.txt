@@ -1,0 +1,7 @@
+FAIL   cdk-nag passes and the template keeps data private, encrypted and retained
+FAIL   own tests: 3 or more assertion tests
+FAILED labs/03-cdk-python-assertions/tests/test_grader.py::test_assets_bucket_is_versioned_and_logs_to_the_log_bucket
+FAILED labs/03-cdk-python-assertions/tests/test_grader.py::test_cdk_nag_aws_solutions_checks_pass
+FAILED labs/03-cdk-python-assertions/tests/test_grader.py::test_every_bucket_blocks_public_access_and_is_encrypted
+FAILED labs/03-cdk-python-assertions/tests/test_grader.py::test_every_bucket_denies_requests_without_tls
+FAILED labs/03-cdk-python-assertions/tests/test_grader.py::test_two_buckets_assets_and_access_logs

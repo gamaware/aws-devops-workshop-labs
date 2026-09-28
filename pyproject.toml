@@ -1,0 +1,48 @@
+[project]
+name = "aws-devops-workshop-labs"
+version = "0.1.0"
+description = "Hands-on AWS, Terraform, CDK and CI/CD labs with starter code, solutions and automated checks."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+# Lab 03 (CDK in Python) and the graders for labs 03 to 05.
+labs = [
+  "aws-cdk-lib>=2.271,<3",
+  "constructs>=10.8,<11",
+  "cdk-nag>=3.0.2,<4",
+  "pytest>=9.1,<10",
+  "pyyaml>=6.0.3,<7",
+  "actionlint-py==1.7.12.25",
+  "zizmor==1.30.1",
+]
+dev = [
+  "ruff>=0.16.9,<0.17",
+]
+
+[tool.uv]
+exclude-newer = "7 days"
+exclude-newer-package = { actionlint-py = false, ruff = false, aws-cdk-lib = false }
+default-groups = ["labs", "dev"]
+package = false
+
+[tool.pytest.ini_options]
+addopts = "-q --strict-markers -p no:cacheprovider"
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+extend-exclude = ["cdk.out"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "S", "SIM", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+# assert is how pytest expresses checks.
+"labs/*/tests/*.py" = ["S101"]
+
+[tool.ruff.lint.isort]
+# Modules imported from the lab directories at test time.
+known-local-folder = ["harbor_assets", "oidc_dry_run"]

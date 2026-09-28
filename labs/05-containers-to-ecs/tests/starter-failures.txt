@@ -1,0 +1,17 @@
+FAIL   Dockerfile passes hadolint
+FAIL   image and task definition follow the Fargate hardening checklist
+FAIL   image has no pip, runs read-only as non-root without capabilities, turns healthy, serves /products
+FAILED labs/05-containers-to-ecs/tests/test_grader.py::test_base_image_is_pinned_by_digest
+FAILED labs/05-containers-to-ecs/tests/test_grader.py::test_cmd_uses_the_exec_form
+FAILED labs/05-containers-to-ecs/tests/test_grader.py::test_container_has_a_health_check
+FAILED labs/05-containers-to-ecs/tests/test_grader.py::test_container_is_locked_down
+FAILED labs/05-containers-to-ecs/tests/test_grader.py::test_container_user_and_port_match_the_image
+FAILED labs/05-containers-to-ecs/tests/test_grader.py::test_image_comes_from_ecr_by_digest
+FAILED labs/05-containers-to-ecs/tests/test_grader.py::test_image_copies_only_what_the_app_needs
+FAILED labs/05-containers-to-ecs/tests/test_grader.py::test_image_has_a_healthcheck
+FAILED labs/05-containers-to-ecs/tests/test_grader.py::test_image_runs_as_a_numeric_non_root_user
+FAILED labs/05-containers-to-ecs/tests/test_grader.py::test_logs_go_to_cloudwatch
+FAILED labs/05-containers-to-ecs/tests/test_grader.py::test_python_does_not_write_bytecode
+FAILED labs/05-containers-to-ecs/tests/test_grader.py::test_secrets_come_from_secrets_manager_not_plain_environment
+FAILED labs/05-containers-to-ecs/tests/test_grader.py::test_task_has_an_execution_role
+FAILED labs/05-containers-to-ecs/tests/test_grader.py::test_task_targets_fargate_with_a_valid_size
