@@ -1,0 +1,3 @@
+# Copy to terraform.tfvars and make the name unique: S3 bucket names are global.
+bucket_name = "harbor-goods-tfstate-yourinitials"
+region      = "us-east-1"

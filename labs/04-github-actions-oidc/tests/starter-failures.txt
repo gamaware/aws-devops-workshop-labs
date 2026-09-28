@@ -1,0 +1,13 @@
+FAIL   workflow passes zizmor's security audit (offline)
+FAIL   workflow uses OIDC, SHA pins, least privilege; trust and deploy policies are tight
+FAILED labs/04-github-actions-oidc/tests/test_grader.py::test_checkout_does_not_keep_the_github_token
+FAILED labs/04-github-actions-oidc/tests/test_grader.py::test_deploy_policy_is_limited_to_the_static_assets_bucket
+FAILED labs/04-github-actions-oidc/tests/test_grader.py::test_deploy_runs_only_for_pushes_to_main_in_production
+FAILED labs/04-github-actions-oidc/tests/test_grader.py::test_every_action_is_pinned_to_a_commit_sha
+FAILED labs/04-github-actions-oidc/tests/test_grader.py::test_every_job_has_a_timeout
+FAILED labs/04-github-actions-oidc/tests/test_grader.py::test_no_long_lived_aws_keys
+FAILED labs/04-github-actions-oidc/tests/test_grader.py::test_only_the_deploy_job_can_request_an_oidc_token
+FAILED labs/04-github-actions-oidc/tests/test_grader.py::test_the_deploy_role_is_assumed_with_oidc
+FAILED labs/04-github-actions-oidc/tests/test_grader.py::test_trust_policy_admits_only_production_deploys_from_main
+FAILED labs/04-github-actions-oidc/tests/test_grader.py::test_trust_policy_matches_the_subject_exactly
+FAILED labs/04-github-actions-oidc/tests/test_grader.py::test_workflow_grants_no_permissions_by_default

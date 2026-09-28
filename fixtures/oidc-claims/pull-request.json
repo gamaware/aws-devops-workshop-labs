@@ -1,0 +1,11 @@
+{
+  "_description": "Any pull request, including one from a fork.",
+  "_expected": "deny",
+  "iss": "https://token.actions.githubusercontent.com",
+  "aud": "sts.amazonaws.com",
+  "sub": "repo:harbor-goods/storefront:pull_request",
+  "repository": "harbor-goods/storefront",
+  "repository_owner": "harbor-goods",
+  "ref": "refs/pull/42/merge",
+  "event_name": "pull_request"
+}

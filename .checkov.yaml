@@ -1,0 +1,16 @@
+# Used by `make checkov` and CI. Only the lab solutions are scanned: they are the model
+# answers. Starters are incomplete on purpose; scripts/verify-labs.sh proves they fail
+# their graders (ADR 0003). Skips live next to the resource with their reason, never here.
+directory:
+  - labs/01-terraform-remote-state/solution
+  - labs/02-terraform-module-testing/solution
+  - labs/05-containers-to-ecs/solution
+  - .github/workflows
+framework:
+  - terraform
+  - dockerfile
+  - github_actions
+skip-path:
+  - \.terraform
+quiet: true
+compact: true

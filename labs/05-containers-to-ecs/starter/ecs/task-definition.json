@@ -1,0 +1,30 @@
+{
+  "family": "harbor-catalog",
+  "networkMode": "bridge",
+  "requiresCompatibilities": ["EC2"],
+  "containerDefinitions": [
+    {
+      "name": "catalog",
+      "image": "harbor-catalog:latest",
+      "memory": 512,
+      "essential": true,
+      "privileged": true,
+      "portMappings": [
+        {
+          "containerPort": 8080,
+          "hostPort": 80
+        }
+      ],
+      "environment": [
+        {
+          "name": "PORT",
+          "value": "8080"
+        },
+        {
+          "name": "CATALOG_DB_PASSWORD",
+          "value": "REPLACE_ME"
+        }
+      ]
+    }
+  ]
+}

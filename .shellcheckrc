@@ -1,0 +1,3 @@
+# Follow `source` statements; paths in source= directives are relative to the script.
+external-sources=true
+source-path=SCRIPTDIR
