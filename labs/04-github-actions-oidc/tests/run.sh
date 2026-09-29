@@ -27,7 +27,7 @@ setup "deploy policy is valid JSON" py python -m json.tool "$GRADER_WORK/iam/dep
 
 check "workflow passes zizmor's security audit (offline)" \
   zizmor_run --offline --no-progress --min-severity low "$WORKFLOW"
-check "workflow uses OIDC, SHA pins, least privilege; trust and deploy policies are tight" \
+check "workflow uses OIDC, SHA pins, scoped permissions; trust and deploy policies are tight" \
   pytest_run "$TESTS/test_grader.py"
 
 finish

@@ -125,7 +125,7 @@ Tools: `uv`.
 | setup | `IAM policies are valid JSON` |
 | setup | `deploy policy is valid JSON` |
 | check | `workflow passes zizmor's security audit (offline)` |
-| check | `workflow uses OIDC, SHA pins, least privilege; trust and deploy policies are tight` |
+| check | `workflow uses OIDC, SHA pins, scoped permissions; trust and deploy policies are tight` |
 
 The last check runs the trust policy through `tests/oidc_dry_run.py` against every claims file in
 `fixtures/oidc-claims/`.

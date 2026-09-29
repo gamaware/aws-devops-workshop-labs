@@ -50,7 +50,7 @@ By the end, participants can:
 The starter workflow lists five `Exercise N` comments at the top of `workflows/deploy.yml`; Exercise 5 points to
 the two IAM policies. The table splits each exercise into tasks and maps them to grader tests in
 `tests/test_grader.py`, all reported under one check:
-`workflow uses OIDC, SHA pins, least privilege; trust and deploy policies are tight`. The zizmor check,
+`workflow uses OIDC, SHA pins, scoped permissions; trust and deploy policies are tight`. The zizmor check,
 `workflow passes zizmor's security audit (offline)`, covers exercises 1, 3 and 4 from another angle.
 
 | Exercise | Task | File | Grader tests |
@@ -139,9 +139,9 @@ Optional, in a sandbox account and a personal GitHub repository only (see
 3. Copy the solution's `trust-policy.json`, set the account ID in the provider ARN, and set the subject to
    `repo:YOUR_GITHUB_USER/YOUR_REPO:environment:production`. Create the role with it and attach the deploy
    policy as an inline policy.
-4. In the GitHub repository, create an environment named `production`. Copy the solution workflow to
-   `.github/workflows/deploy.yml`, the `static/` directory to the repository root, and set `role-to-assume` and the
-   bucket name.
+4. In the GitHub repository, create an environment named `production` and limit its deployment branches to
+   `main`. Copy the solution workflow to `.github/workflows/deploy.yml`, the `static/` directory to the repository
+   root, and set `role-to-assume` and the bucket name.
 5. Push to `main`, watch the run, and open the role's CloudTrail `AssumeRoleWithWebIdentity` event. Then open a
    pull request and show that GitHub skips the deploy job.
 

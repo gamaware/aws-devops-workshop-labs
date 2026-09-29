@@ -11,7 +11,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from oidc_dry_run import DEFAULT_CLAIMS, run
+from oidc_dry_run import DEFAULT_CLAIMS, like, run
 
 TARGET = Path(os.environ["LAB_TARGET"])
 SHA_PIN = re.compile(r"^[\w.-]+/[\w.-]+(/[\w./-]+)?@[0-9a-f]{40}$")
@@ -118,3 +118,18 @@ def test_deploy_policy_is_limited_to_the_static_assets_bucket() -> None:
         assert actions <= ALLOWED_ACTIONS, f"unexpected actions: {sorted(actions - ALLOWED_ACTIONS)}"
         for resource in as_list(statement["Resource"]):
             assert resource in (BUCKET_ARN, f"{BUCKET_ARN}/*"), f"resource outside the static assets bucket: {resource}"
+
+
+@pytest.mark.parametrize(
+    ("pattern", "value", "expected"),
+    [
+        ("repo:harbor-goods/*", "repo:harbor-goods/storefront:environment:production", True),
+        ("repo:harbor-goods/storefron?:*", "repo:harbor-goods/storefront:pull_request", True),
+        ("repo:harbor-goods/[sx]torefront", "repo:harbor-goods/storefront", False),
+        ("repo:harbor-goods/[sx]torefront", "repo:harbor-goods/[sx]torefront", True),
+        ("repo:Harbor-Goods/*", "repo:harbor-goods/storefront", False),
+    ],
+)
+def test_dry_run_matches_iam_string_like(pattern: str, value: str, expected: bool) -> None:
+    """The dry run treats only * and ? as wildcards, as IAM StringLike does; brackets are literal."""
+    assert like(pattern, value) is expected
