@@ -31,7 +31,5 @@ __pycache__/
 
 # Tools
 .firecrawl/
-.claude-flow/
-.claude/proven-config*
 .DS_Store
 styles/

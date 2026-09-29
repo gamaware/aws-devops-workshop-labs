@@ -55,6 +55,8 @@ laptops; the workshop excludes the company's AWS accounts.
 
 ## Architecture
 
+![Animated flow: starter, solution and the offline grader](docs/diagrams/architecture-animated.svg)
+
 ![Participants and instructor use offline laptops; AWS sandbox optional, client accounts never used](docs/diagrams/01-context.svg)
 
 After cloning the repository, participants complete the work on their laptops, running Terraform, the CDK Python
