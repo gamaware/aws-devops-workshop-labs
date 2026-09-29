@@ -1,5 +1,5 @@
 FAIL   workflow passes zizmor's security audit (offline)
-FAIL   workflow uses OIDC, SHA pins, least privilege; trust and deploy policies are tight
+FAIL   workflow uses OIDC, SHA pins, scoped permissions; trust and deploy policies are tight
 FAILED labs/04-github-actions-oidc/tests/test_grader.py::test_checkout_does_not_keep_the_github_token
 FAILED labs/04-github-actions-oidc/tests/test_grader.py::test_deploy_policy_is_limited_to_the_static_assets_bucket
 FAILED labs/04-github-actions-oidc/tests/test_grader.py::test_deploy_runs_only_for_pushes_to_main_in_production

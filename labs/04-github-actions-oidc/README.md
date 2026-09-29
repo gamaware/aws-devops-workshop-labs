@@ -94,7 +94,8 @@ Use `starter/` for your changes. In `deploy.yml`, numbered `Exercise` comments c
 
 For the optional step, use a sandbox account and your own GitHub repository. Set up the IAM OIDC identity provider for
 `token.actions.githubusercontent.com`, then create the role using both policy files, substituting your repository in the
-subject. Add a `production` environment and place a copy of `deploy.yml` in `.github/workflows/`. Find the commands and
+subject. Add a `production` environment limited to the `main` branch (the subject names the environment, not the
+branch) and place a copy of `deploy.yml` in `.github/workflows/`. Find the commands and
 cleanup instructions in [Use a sandbox account](../../docs/how-to/use-a-sandbox-account.md).
 
 ## Expected result
@@ -102,7 +103,7 @@ cleanup instructions in [Use a sandbox account](../../docs/how-to/use-a-sandbox-
 ```text
 ok     workflow is valid GitHub Actions syntax (actionlint)
 PASS   workflow passes zizmor's security audit (offline)
-PASS   workflow uses OIDC, SHA pins, least privilege; trust and deploy policies are tight
+PASS   workflow uses OIDC, SHA pins, scoped permissions; trust and deploy policies are tight
 RESULT all objectives met
 ```
 

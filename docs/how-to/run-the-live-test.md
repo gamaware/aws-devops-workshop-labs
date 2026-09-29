@@ -37,8 +37,8 @@ The script:
    it.
 3. Writes a `live_override.tf` file next to each stack. Terraform merges `*_override.tf` files into the
    configuration; this one sets `default_tags` with `project=harbor-goods`, the lab name,
-   `managed-by=terraform`, `purpose=portfolio-test` and `run=<id>`. The run ID is the last six digits of the
-   current Unix time.
+   `managed-by=terraform`, `purpose=portfolio-test` and `run=<id>`. The run ID is the current Unix time followed by
+   eight random hexadecimal characters, so retries and concurrent runs do not share a bucket or a `run` tag.
 4. Applies the lab 01 bootstrap with a bucket named `harbor-labs-tfstate-<id>` and `force_destroy=true`, then
    the app stack with a generated `backend.hcl` (`use_lockfile = true`, `encrypt = true`).
 5. Checks that the state object and the parameter `/harbor-goods/dev/storefront/feature-flags` exist.
