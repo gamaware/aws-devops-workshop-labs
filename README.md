@@ -7,7 +7,7 @@ grader that participants can run on a laptop without an AWS account.
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Lab](https://img.shields.io/badge/type-lab-5b6b7f)
 
-![AWS workshop and mentoring](docs/assets/cover.png)
+![AWS DevOps workshop labs](docs/assets/cover.png)
 
 > **Lab.** Harbor Goods and all data here are fictional. Each repository in this portfolio is a separate engagement
 > with Harbor Goods, a fictional mid-size retailer. Account IDs are AWS documentation examples.
@@ -166,8 +166,8 @@ actions and defines timeouts. All jobs run without cloud credentials.
 - **Outside the scope:** the labs exclude a CDK deployment, an actual GitHub-to-AWS OIDC run and an ECS service. The
   sandbox how-to presents these as optional steps; the
   [ECS Fargate lab](https://github.com/gamaware/aws-ecs-fargate-deploy-lab) covers building the full service.
-- **Engagement additions:** a real engagement includes rebuilding labs around the client's repositories and stack in the
-  Advanced format, English or Spanish sessions, recordings and written notes following every mentoring session.
+- **Engagement additions:** a real engagement includes rebuilding labs around the client's repositories and stack,
+  English or Spanish sessions, recordings and written notes following every mentoring session.
 - **Running costs:** offline work costs nothing. Optional sandbox steps exist for labs 01 to 04 and cost a few cents
   per lab if participants follow each lab's Reset section. Lab 05 has no live step: Fargate has no free tier, so the
   lab stays on local Docker.
