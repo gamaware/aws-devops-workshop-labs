@@ -40,4 +40,6 @@ This file records all notable changes to this project. The format follows
 
 ### Security
 
+- Lab 05 solution image: `python:3.14-slim` moved to the patched Debian digest (PCRE2 CVE-2026-103111, OpenSSL
+  CVE-2026-84782).
 - CI calls the shared reusable workflows from `gamaware/.github` pinned to a full commit SHA.

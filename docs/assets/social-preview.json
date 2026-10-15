@@ -1,6 +1,6 @@
 {
   "color": "#9E1C2F",
-  "heading": ["AWS workshop", "& mentoring labs"],
+  "heading": ["AWS DevOps", "workshop labs"],
   "subtitle": "Terraform · CDK · CI/CD with OIDC · ECS",
   "steps": [
     {"label": "Terraform and CDK labs", "icon": "social-preview/terraform.svg"},
