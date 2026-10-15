@@ -11,3 +11,4 @@ When reviewing pull requests in this repository:
 - Lab READMEs keep their required sections in order: Objectives, Prerequisites, Duration, Scenario, Steps,
   Expected result, Reset.
 - Verify conventional commit format in PR titles.
+- Flag job-marketplace profile links, service offers and sales badges; none are allowed.

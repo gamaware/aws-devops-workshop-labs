@@ -174,9 +174,7 @@ actions and defines timeouts. All jobs run without cloud credentials.
 
 ## Related work
 
-This repository belongs to the [AWS DevOps portfolio](https://github.com/gamaware/aws-devops-portfolio) and backs the
-"AWS workshop and mentoring" service:
-[AWS workshop and mentoring on Upwork](https://www.upwork.com/freelancers/~014b3520cf9e140103).
+This repository belongs to the [AWS DevOps portfolio](https://github.com/gamaware/aws-devops-portfolio).
 
 ## License
 
