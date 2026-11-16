@@ -1,11 +1,17 @@
-# Harbor Goods catalog API. Standard library only, so there is nothing to install.
-# The base image is pinned by digest: the same bytes every build, updated by Dependabot.
-FROM python:3.14-slim@sha256:a2b82f3c48559aa0a8446d9af49826b6e2b2016f4cd2afabfe6013ec53729170
+# Harbor Goods catalog API. Standard library only, so there are no Python packages to install.
+# The base image is pinned by digest and updated by Dependabot.
+FROM python:3.14-slim@sha256:9aaa474097d094040649f2162a627c0049b408f52138d980916788d80f04802f
 
 # No .pyc files (the root filesystem is read-only on ECS) and unbuffered logs.
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PORT=8080
+
+# Apply Debian security fixes that are newer than the base image (zlib1g CVE-2026-76844 and
+# CVE-2026-85091), then drop the package lists so they do not stay in the layer.
+RUN apt-get update \
+ && apt-get upgrade --yes \
+ && rm -rf /var/lib/apt/lists/*
 
 # The app needs no package manager at run time. Removing pip (and the libraries it
 # vendors) leaves less for a scanner to report and for an attacker to use.
