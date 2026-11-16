@@ -9,6 +9,8 @@ updates:
     groups:
       actions:
         patterns: ["*"]
+      github-actions-all:
+        patterns: ["*"]
 
   # aws-cdk-lib, cdk-nag, pytest, actionlint and zizmor for lab 03 and the graders.
   - package-ecosystem: uv
@@ -20,6 +22,8 @@ updates:
     groups:
       python:
         patterns: ["*"]
+      uv-all:
+        patterns: ["*"]
 
   # The python base image digest in the lab 05 solution.
   - package-ecosystem: docker
@@ -28,6 +32,9 @@ updates:
       interval: weekly
     cooldown:
       default-days: 7
+    groups:
+      docker-all:
+        patterns: ["*"]
 
   - package-ecosystem: terraform
     directories:
@@ -39,3 +46,7 @@ updates:
       interval: weekly
     cooldown:
       default-days: 7
+    groups:
+      terraform-all:
+        group-by: dependency-name
+        patterns: ["*"]
